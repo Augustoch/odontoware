@@ -5,7 +5,9 @@
  */
 package Classes;
 
-import java.util.GregorianCalendar;
+
+import java.sql.Date;
+import java.time.LocalDate;
 import javax.persistence.*;
 
 /**
@@ -15,28 +17,26 @@ import javax.persistence.*;
 @Entity
 public class Paciente {
 
-    
-    @GeneratedValue @Id
+    @GeneratedValue
+    @Id
     private int id;
     private String nome;
     private String cpf;
-    private GregorianCalendar dataDeNacimento;
+    private LocalDate dataDeNacimento;
     private String endereco;
     private char sexo;
     
-    
-    
-    public static Paciente devolveInstanciaDePaciente(){
+    public static Paciente devolveInstanciaDePaciente() {
         return new Paciente();
-                }
+    }
 
-    
     /**
      * @return the id
      */
     public int getId() {
         return id;
     }
+
     /**
      * @param id the id to set
      */
@@ -72,19 +72,7 @@ public class Paciente {
         this.cpf = cpf;
     }
 
-    /**
-     * @return the dataDeNacimento
-     */
-    public GregorianCalendar getDataDeNacimento() {
-        return dataDeNacimento;
-    }
-
-    /**
-     * @param dataDeNacimento the dataDeNacimento to set
-     */
-    public void setDataDeNacimento(GregorianCalendar dataDeNacimento) {
-        this.dataDeNacimento = dataDeNacimento;
-    }
+    
 
     /**
      * @return the endereco
@@ -114,8 +102,20 @@ public class Paciente {
         this.sexo = sexo;
     }
 
-   
+    /**
+     * @return the dataDeNacimento
+     */
+    public LocalDate getDataDeNacimento() {
+        return dataDeNacimento;
+    }
+
+    /**
+     * @param dataDeNacimento the dataDeNacimento to set
+     */
+    public void setDataDeNacimento(LocalDate dataDeNacimento) {
+        this.dataDeNacimento = dataDeNacimento;
+    }
+
     
-    
-    
+
 }

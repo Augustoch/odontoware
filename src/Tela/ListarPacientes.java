@@ -5,7 +5,6 @@
  */
 package Tela;
 
-
 import Util.Banco;
 import Classes.Paciente;
 import Classes.Usuario;
@@ -25,10 +24,10 @@ public class ListarPacientes extends javax.swing.JFrame {
     /**
      * Creates new form ListarPacientes
      */
-    public ListarPacientes() throws Exception{
+    public ListarPacientes() throws Exception {
         initComponents();
-        this.setLocationRelativeTo(null);
         carregar();
+        this.setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -105,13 +104,13 @@ public class ListarPacientes extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(102, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(18, 18, 18)
+                .addContainerGap(108, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(151, 151, 151)
+                .addGap(157, 157, 157)
                 .addComponent(jButton3)
                 .addGap(24, 24, 24))
         );
@@ -123,7 +122,7 @@ public class ListarPacientes extends javax.swing.JFrame {
         try {
             Object i = jTable1.getValueAt(jTable1.getSelectedRow(), 0);
             int a = Integer.parseInt(i.toString());
-            new EditarUsuario(a, jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString(), jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString());
+            new EditarPaciente(a, jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
             carregar();
 
         } catch (Exception e) {
@@ -165,22 +164,28 @@ public class ListarPacientes extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
-    
+
     private void carregar() throws Exception {
+         List<Paciente> results; 
+        Paciente usuario = Paciente.devolveInstanciaDePaciente();
         SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
         Session s = sf.openSession();
 
-        Criteria crit = s.createCriteria(Paciente.class);
-        List<Paciente> results = crit.list();
-        Paciente usuario = Paciente.devolveInstanciaDePaciente();
-        // o nome estpa usuário pois copiei o metodo da classe listarUsuario
+        Criteria crite = s.createCriteria(Paciente.class);
+        
+            results = crite.list();
+        
+         
         List<String[]> lista = new ArrayList<String[]>();
 
         for (int i = 0; i < results.size(); i++) {
+
             usuario = results.get(i);
-            lista.add(new String[]{"" + usuario.getId() + "", usuario.getNome(), usuario.getCpf(),usuario.getEndereco(),""+usuario.getSexo()+""});
+
+            lista.add(new String[]{"" + usuario.getId() + "", usuario.getNome(),""+usuario.getDataDeNacimento()+"", usuario.getCpf(), usuario.getEndereco(), "" + usuario.getSexo() + ""});
         }
-        String[] colunas = {"Id", "Nome", "Nascimento","CPF","Endereço","Sexo"};
+
+        String[] colunas = {"Id", "Nome", "Nascimento", "CPF", "Endereço", "Sexo"};
         DefaultTableModel model = new DefaultTableModel(lista.toArray(new String[lista.size()][]), colunas);
         jTable1.setModel(model);
 
@@ -190,7 +195,6 @@ public class ListarPacientes extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

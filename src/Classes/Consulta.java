@@ -20,7 +20,7 @@ import org.hibernate.annotations.ManyToAny;
 public class Consulta {
     @GeneratedValue @Id
     int cod;
-    @ManyToAny(metaColumn = )
+    
     Paciente paciente;
     Usuario dentista;
     Date data;

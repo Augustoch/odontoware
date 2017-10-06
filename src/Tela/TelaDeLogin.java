@@ -8,6 +8,7 @@ package Tela;
 import Classes.Usuario;
 import Util.Banco;
 import com.itextpdf.text.log.SysoLogger;
+import java.awt.FlowLayout;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,9 +29,11 @@ public class TelaDeLogin extends javax.swing.JFrame {
      * Creates new form TelaDeLogin
      */
     public TelaDeLogin() {
+        setLayout(new FlowLayout());
         initComponents();
         setVisible(true);
         this.setLocationRelativeTo(null);
+        
         
 
     }
@@ -162,7 +165,7 @@ public class TelaDeLogin extends javax.swing.JFrame {
         if (u.getTipo().equals("Dentista")) {
             //menu de 
         } else if (u.getTipo().equals("Atendente")) {
-            new MenuAtendente();
+            new MenuAtendente(u.getLogin());
             this.dispose();
         } else {
             new MenuAdmin();

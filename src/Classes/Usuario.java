@@ -19,41 +19,41 @@ import sun.security.util.Password;
 @Entity
 public class Usuario {
 
-    
-    @Id @GeneratedValue            
+    @Id
+    @GeneratedValue
     private int id;
     private String login;
     private String senha;
     private String tipo;
-    
-    public static Usuario devolveUsuario(){
+
+    public static Usuario devolveUsuario() {
         return new Usuario();
     }
-    
-    private static byte[] gerarHash(String frase) {
-  try {
-    MessageDigest md = MessageDigest.getInstance("MD5");
-    md.update(frase.getBytes());
-    return md.digest();
-  } catch (NoSuchAlgorithmException e) {
-    return null;
-  }
-  
-}
-    private static String stringHexa(byte[] bytes) {
-   StringBuilder s = new StringBuilder();
-   for (int i = 0; i < bytes.length; i++) {
-       int parteAlta = ((bytes[i] >> 4) & 0xf) << 4;
-       int parteBaixa = bytes[i] & 0xf;
-       if (parteAlta == 0) s.append('0');
-       s.append(Integer.toHexString(parteAlta | parteBaixa));
-   }
-   return s.toString();
-}
 
-    
-    
-    
+    private static byte[] gerarHash(String frase) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(frase.getBytes());
+            return md.digest();
+        } catch (NoSuchAlgorithmException e) {
+            return null;
+        }
+
+    }
+
+    private static String stringHexa(byte[] bytes) {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < bytes.length; i++) {
+            int parteAlta = ((bytes[i] >> 4) & 0xf) << 4;
+            int parteBaixa = bytes[i] & 0xf;
+            if (parteAlta == 0) {
+                s.append('0');
+            }
+            s.append(Integer.toHexString(parteAlta | parteBaixa));
+        }
+        return s.toString();
+    }
+
     /**
      * @return the login
      */
@@ -78,8 +78,8 @@ public class Usuario {
     /**
      * @param senha the senha to set
      */
-    public void setSenha(String senha) throws NoSuchAlgorithmException{
-          this.senha = stringHexa(gerarHash(senha));  
+    public void setSenha(String senha) throws NoSuchAlgorithmException {
+        this.senha = stringHexa(gerarHash(senha));
     }
 
     /**
@@ -102,6 +102,7 @@ public class Usuario {
     public int getId() {
         return id;
     }
+
     /**
      * @param id the id to set
      */
