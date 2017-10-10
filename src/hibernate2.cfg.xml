@@ -41,8 +41,8 @@ Contributor(s):
 -->
 <hibernate-configuration>
   <session-factory>
-    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://192.168.0.106:3306/odontoware</property>
+    <property name="hibernate.connection.driver_class">org.mariadb.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mariadb://localhost/odontoware</property>
     
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">123456</property>

@@ -78,7 +78,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-           new ListarPacientes(); 
+          // new ListarPacientes(); 
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     /**
