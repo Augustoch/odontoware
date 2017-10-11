@@ -5,6 +5,12 @@
  */
 package Tela;
 
+import Classes.Servico;
+import javax.swing.JOptionPane;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
 /**
  *
  * @author augusto
@@ -16,6 +22,7 @@ public class CadastrarServico extends javax.swing.JFrame {
      */
     public CadastrarServico() {
         initComponents();
+        setVisible(true);
     }
 
     /**
@@ -119,13 +126,26 @@ public class CadastrarServico extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Servico servico = Servico.retornarObjeto();
+        servico.setNome(jTextField1.getText());
+        servico.setPreco(Double.parseDouble(jTextField2.getText()));
+        servico.setDescricao(jTextArea1.getText());
+
+        SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
+        Session s = sf.openSession();
+        Transaction tx = s.beginTransaction();
             
+        s.merge(servico);
+        JOptionPane.showMessageDialog(null, "Serviço Cadastrado");
+        tx.commit();
+        s.close();
+
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

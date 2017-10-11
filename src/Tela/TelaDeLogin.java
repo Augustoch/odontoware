@@ -163,7 +163,7 @@ public class TelaDeLogin extends javax.swing.JFrame {
 
     private void AbriMenu(Usuario u) {
         if (u.getTipo().equals("Dentista")) {
-            //menu de 
+            new MenuDentista();
         } else if (u.getTipo().equals("Atendente")) {
             new MenuAtendente(u.getLogin());
             this.dispose();
