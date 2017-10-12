@@ -147,7 +147,20 @@ public class EditarServico extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Servico servico = Servico.retornarObjeto();
+        servico.setId(Integer.parseInt(jTextField3.getText()));
+        servico.setNome(jTextField1.getText());
+        servico.setPreco(Double.parseDouble(jTextField2.getText()));
+        servico.setDescricao(jTextArea1.getText());
         
+        SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
+        Session s = sf.openSession();
+        Transaction tx = s.beginTransaction();
+        
+             s.update(servico);
+             JOptionPane.showMessageDialog(null, "Usuario Atualizado");
+             tx.commit();
+             s.close();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
