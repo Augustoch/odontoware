@@ -55,7 +55,7 @@ public class MenuAtendente extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Cadastrar consulta");
+        jButton2.setText("Criar Consulta");
 
         jButton3.setText("listar Pacientes");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
