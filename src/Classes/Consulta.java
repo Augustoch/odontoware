@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import org.hibernate.annotations.ManyToAny;
 
 /**
@@ -19,9 +20,28 @@ import org.hibernate.annotations.ManyToAny;
 @Entity
 public class Consulta {
     @GeneratedValue @Id
-    int cod;
-    
+    int cod;    
+    @ManyToOne
     Paciente paciente;
     Usuario dentista;
     Date data;
+    String queixa;
+    boolean doenca;
+    String doencaDesc;
+    boolean tratamento;
+    boolean gravidez;
+    String medicacao;
+    String cirurgias;
+    String alergias;
+    String habitos;
+    String obs;
+    Date ultimoAtendimento;
+    String xpNegAtendAnterior;
+    String usaHigieneBucal;
+    String tecidosMoles;
+    boolean ingeriAlimentosbebidasRefeicoes;
+    String exameDental;
+    String planosTratamento;
+    boolean finalizada; 
+    
 }

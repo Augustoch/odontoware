@@ -25,6 +25,10 @@ public class Paciente {
     private LocalDate dataDeNacimento;
     private String endereco;
     private char sexo;
+    private String fone;
+    private String rg;
+    private String OrgaoEmissor;
+    
     
     public static Paciente devolveInstanciaDePaciente() {
         return new Paciente();
@@ -114,6 +118,48 @@ public class Paciente {
      */
     public void setDataDeNacimento(LocalDate dataDeNacimento) {
         this.dataDeNacimento = dataDeNacimento;
+    }
+
+    /**
+     * @return the fone
+     */
+    public String getFone() {
+        return fone;
+    }
+
+    /**
+     * @param fone the fone to set
+     */
+    public void setFone(String fone) {
+        this.fone = fone;
+    }
+
+    /**
+     * @return the rg
+     */
+    public String getRg() {
+        return rg;
+    }
+
+    /**
+     * @param rg the rg to set
+     */
+    public void setRg(String rg) {
+        this.rg = rg;
+    }
+
+    /**
+     * @return the OrgaoEmissor
+     */
+    public String getOrgaoEmissor() {
+        return OrgaoEmissor;
+    }
+
+    /**
+     * @param OrgaoEmissor the OrgaoEmissor to set
+     */
+    public void setOrgaoEmissor(String OrgaoEmissor) {
+        this.OrgaoEmissor = OrgaoEmissor;
     }
 
     
