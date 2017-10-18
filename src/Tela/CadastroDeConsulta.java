@@ -5,29 +5,40 @@
  */
 package Tela;
 
+import Classes.Consulta;
 import Classes.Paciente;
 import Classes.Usuario;
+import com.itextpdf.tool.xml.html.Break;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 /**
  *
  * @author Cleyton
  */
-public class TelaDeConsulta extends javax.swing.JFrame {
-    
-    DefaultListModel model ;
+public class CadastroDeConsulta extends javax.swing.JFrame {
+
+    DefaultListModel model;
+    List<Paciente> results;
+    int linha;
+
     /**
      * Creates new form NovoJFrame
      */
-    public TelaDeConsulta() {
+    public CadastroDeConsulta() {
         initComponents();
+        this.setLocationRelativeTo(null);
         lista.setVisible(false);
+
         setVisible(true);
+
         model = new DefaultListModel();
     }
 
@@ -59,6 +70,8 @@ public class TelaDeConsulta extends javax.swing.JFrame {
         btnImprimir = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         pesquisa = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -89,7 +102,6 @@ public class TelaDeConsulta extends javax.swing.JFrame {
         btnCancelar1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jLabel19 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         txaExperiencia = new javax.swing.JTextArea();
@@ -104,6 +116,11 @@ public class TelaDeConsulta extends javax.swing.JFrame {
         btnCancelar2 = new javax.swing.JButton();
         btnSalvar2 = new javax.swing.JButton();
         btnImprimir2 = new javax.swing.JButton();
+        dia = new javax.swing.JTextField();
+        mes = new javax.swing.JTextField();
+        ano = new javax.swing.JTextField();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         lblOdontograma = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
@@ -126,7 +143,12 @@ public class TelaDeConsulta extends javax.swing.JFrame {
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.add(lista, new org.netbeans.lib.awtextra.AbsoluteConstraints(113, 46, 340, 136));
+        lista.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                listaMouseClicked(evt);
+            }
+        });
+        jPanel1.add(lista, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 350, 80));
 
         jLabel1.setText("Nome:");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
@@ -178,7 +200,6 @@ public class TelaDeConsulta extends javax.swing.JFrame {
         jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 300, -1, -1));
 
         pesquisa.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        pesquisa.setText("Buscar....");
         pesquisa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 pesquisaMouseClicked(evt);
@@ -190,6 +211,18 @@ public class TelaDeConsulta extends javax.swing.JFrame {
             }
         });
         jPanel1.add(pesquisa, new org.netbeans.lib.awtextra.AbsoluteConstraints(113, 12, 500, 28));
+
+        jLabel25.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        jLabel25.setText("Busca");
+        jPanel1.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, -1, -1));
+
+        jButton1.setText("Cadastrar Paciente");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 10, -1, -1));
 
         jtpConsulta.addTab("Ficha clínica", jPanel1);
 
@@ -394,13 +427,6 @@ public class TelaDeConsulta extends javax.swing.JFrame {
 
         jLabel18.setText("Data do último atendimento:");
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
-        jFormattedTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextField1ActionPerformed(evt);
-            }
-        });
-
         jLabel19.setText("Experiência negativa no tratamento anterior:");
 
         txaExperiencia.setColumns(20);
@@ -439,6 +465,10 @@ public class TelaDeConsulta extends javax.swing.JFrame {
 
         btnImprimir2.setText("Imprimir");
 
+        jLabel26.setText("/");
+
+        jLabel27.setText("/");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -449,26 +479,37 @@ public class TelaDeConsulta extends javax.swing.JFrame {
                     .addComponent(jScrollPane4)
                     .addComponent(jScrollPane5)
                     .addComponent(jScrollPane6)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel19)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jFormattedTextField1))
-                            .addComponent(jLabel20)
-                            .addComponent(jLabel21)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel22)
-                                .addGap(18, 18, 18)
-                                .addComponent(chkInquerito01)))
-                        .addGap(0, 582, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnSalvar2)
                         .addGap(18, 18, 18)
                         .addComponent(btnImprimir2)
                         .addGap(18, 18, 18)
-                        .addComponent(btnCancelar2)))
+                        .addComponent(btnCancelar2))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel22)
+                                .addGap(18, 18, 18)
+                                .addComponent(chkInquerito01))
+                            .addComponent(jLabel21)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel19)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addComponent(dia, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel26)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(mes, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(22, 22, 22)
+                                        .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(ano, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel18))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 484, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -476,9 +517,14 @@ public class TelaDeConsulta extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel18)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel26)
+                    .addComponent(jLabel27))
+                .addGap(31, 31, 31)
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -616,63 +662,126 @@ public class TelaDeConsulta extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtAlergiaActionPerformed
 
-    private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextField1ActionPerformed
-
     private void chkInquerito01ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkInquerito01ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_chkInquerito01ActionPerformed
 
     private void btnSalvar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar1ActionPerformed
-        // TODO add your handling code here:
+        btnSalvarActionPerformed(evt);
     }//GEN-LAST:event_btnSalvar1ActionPerformed
 
     private void btnSalvar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar2ActionPerformed
-        // TODO add your handling code here:
+        btnSalvarActionPerformed(evt);
     }//GEN-LAST:event_btnSalvar2ActionPerformed
 
     private void btnSalvar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar3ActionPerformed
-        // TODO add your handling code here:
+        btnSalvarActionPerformed(evt);
     }//GEN-LAST:event_btnSalvar3ActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        // TODO add your handling code here:
+        Consulta consulta = Consulta.devolveObjConsulta();
+        consulta.setPaciente(results.get(linha));
+        consulta.setQueixa(txaAnamnese01.getText());
+        consulta.setDoenca(chkAnamnese01.isSelected());
+        consulta.setDoencaDesc(txaAnamnese02.getText());
+        consulta.setTratamento(chkAnamnese02.isSelected());
+        consulta.setGravidez(chkAnamnese03.isSelected());
+        consulta.setMedicacao(txtMedicacao.getText());
+        consulta.setCirurgias(txtCirurgia.getText());
+        consulta.setAlergias(txtAlergia.getText());
+        consulta.setHabitos(txtHabito.getText());
+        consulta.setObs(txaObservacoes.getText());
+        consulta.setData(new Date(Integer.parseInt(ano.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(dia.getText())));
+        consulta.setXpNegAtendAnterior(txaExperiencia.getText());
+        consulta.setUsaHigieneBucal(txaHigiene.getText());
+        consulta.setTecidosMoles(txaTecidos.getText());
+        consulta.setIngeriAlimentosbebidasRefeicoes(chkInquerito01.isSelected());
+        consulta.setExameDental(txaDescricao.getText());
+        consulta.setPlanosTratamento(jTextArea1.getText());
+
+        SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
+        Session s = sf.openSession();
+        Transaction tx = s.beginTransaction();
+
+        s.save(consulta);
+        tx.commit();
+        s.close();
+        JOptionPane.showMessageDialog(null, "Consulta Salva");
+
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-        
+
     }//GEN-LAST:event_txtNomeActionPerformed
 
     private void txtNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyReleased
-        
+
     }//GEN-LAST:event_txtNomeKeyReleased
 
     private void pesquisaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pesquisaKeyReleased
-       SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
-            Session s = sf.openSession();
-            
-          Criteria crit = s.createCriteria(Paciente.class);
-          crit.add(Restrictions.eq("nome",pesquisa.getText() ));
-          List<Paciente> results = crit.list(); 
-          
-          lista.setModel(model);
-          for (Paciente result : results) {
+        model.removeAllElements();
+        SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
+        Session s = sf.openSession();
+
+        Criteria crit = s.createCriteria(Paciente.class);
+        if (pesquisa.getText().isEmpty()) {
+            lista.setVisible(false);
+            return;
+        }
+        crit.add(Restrictions.like("nome", pesquisa.getText() + "%"));
+        //crit.add(Restrictions.eq("nome",pesquisa.getText() ));
+        results = crit.list();
+        //lista.setSize(350,results.size()*17);
+        lista.setModel(model);
+        for (Paciente result : results) {
             model.addElement(result.getNome());
         }
-          lista.setVisible(true);
-          
-          
-          s.close();
+        model.setSize(results.size());
+        if (!results.isEmpty()) {
+            lista.setVisible(true);
+        }
+        if (results.isEmpty()) {
+            lista.setVisible(false);
+        }
+
+        s.close();
+
+
     }//GEN-LAST:event_pesquisaKeyReleased
 
     private void pesquisaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pesquisaMouseClicked
-        pesquisa.setText("");
+
+
     }//GEN-LAST:event_pesquisaMouseClicked
 
-   
-    
+    private void listaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaMouseClicked
+        //pega a linha selecionada e joga o objeto dentro do paciente
+        linha = lista.getSelectedIndex();
+        Paciente p = Paciente.devolveInstanciaDePaciente();
+        p = results.get(linha);
+        lista.setVisible(false);
+        txtNome.setText(p.getNome());
+        txtEndereco.setText(p.getEndereco());
+        txtRg.setText(p.getRg());
+        txtOe.setText(p.getOrgaoEmissor());
+        txtCpf.setText(p.getCpf());
+        txtFone.setText(p.getFone());
+        txtNome.setEditable(false);
+        txtEndereco.setEditable(false);
+        txtRg.setEditable(false);
+        txtOe.setEditable(false);
+        txtCpf.setEditable(false);
+        txtFone.setEditable(false);
+
+    }//GEN-LAST:event_listaMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        new CadastroPaciente();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField ano;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCancelar1;
     private javax.swing.JButton btnCancelar2;
@@ -689,7 +798,8 @@ public class TelaDeConsulta extends javax.swing.JFrame {
     private javax.swing.JCheckBox chkAnamnese02;
     private javax.swing.JCheckBox chkAnamnese03;
     private javax.swing.JCheckBox chkInquerito01;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
+    private javax.swing.JTextField dia;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -707,6 +817,9 @@ public class TelaDeConsulta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -730,6 +843,7 @@ public class TelaDeConsulta extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jtpConsulta;
     private javax.swing.JLabel lblOdontograma;
     private javax.swing.JList<String> lista;
+    private javax.swing.JTextField mes;
     private javax.swing.JTextField pesquisa;
     private javax.swing.JTextArea txaAnamnese01;
     private javax.swing.JTextArea txaAnamnese02;

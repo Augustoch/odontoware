@@ -51,5 +51,6 @@ Contributor(s):
     <mapping class="Classes.Usuario"/>
     <mapping class="Classes.Paciente"/>
     <mapping class="Classes.Servico"/>
+    <mapping class="Classes.Consulta"/>
   </session-factory>
 </hibernate-configuration>
