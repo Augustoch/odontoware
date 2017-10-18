@@ -19,10 +19,10 @@ public class MenuAtendente extends javax.swing.JFrame {
     /**
      * Creates new form MenuAtendente
      */
-    public MenuAtendente(String login) {
+    public MenuAtendente() {
         setLayout(new BorderLayout());
         initComponents();
-        jLabel1.setText(login);
+        usuariologado.setText(TelaDeLogin.usuario);
         this.setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -41,8 +41,8 @@ public class MenuAtendente extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
+        usuariologado = new javax.swing.JLabel();
         jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -66,14 +66,14 @@ public class MenuAtendente extends javax.swing.JFrame {
 
         jButton4.setText("Listar Consultas");
 
-        jLabel1.setText("Usuario");
-
         jButton6.setText("Encerrar Sessão");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
         });
+
+        usuariologado.setText("Usuario");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -86,13 +86,13 @@ public class MenuAtendente extends javax.swing.JFrame {
                         .addComponent(jButton6)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(69, 69, 69))))
+                        .addComponent(usuariologado)
+                        .addGap(37, 37, 37))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel1)
+                .addComponent(usuariologado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addComponent(jButton6)
                 .addContainerGap())
@@ -183,7 +183,7 @@ public class MenuAtendente extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel usuariologado;
     // End of variables declaration//GEN-END:variables
 }

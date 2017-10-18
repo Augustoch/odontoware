@@ -5,11 +5,14 @@
  */
 package Classes;
 
+import java.time.LocalDate;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,10 +27,13 @@ public class Consulta {
     @GeneratedValue @Id
     private int cod;    
     @ManyToOne
+    //@JoinColumn(table = "Paciente")
     private Paciente paciente;
     @ManyToOne
+    //@JoinColumn(table = "Usuario")
     private Usuario dentista;
-    private Date data;
+    private LocalDate dataDaConsulta;
+    private LocalDate dataDoUltAtendimento;
     private String queixa;
     private boolean doenca;
     private String doencaDesc;
@@ -37,9 +43,7 @@ public class Consulta {
     private String cirurgias;
     private String alergias;
     private String habitos;
-    private String obs;
-    @Temporal(TemporalType.DATE)
-    private Date ultimoAtendimento;
+    private String obs;    
     private String xpNegAtendAnterior;
     private String usaHigieneBucal;
     private String tecidosMoles;
@@ -95,17 +99,17 @@ public class Consulta {
     }
 
     /**
-     * @return the data
+     * @return the dataDaConsulta
      */
-    public Date getData() {
-        return data;
+    public LocalDate getDataDaConsulta() {
+        return dataDaConsulta;
     }
 
     /**
-     * @param data the data to set
+     * @param dataDaConsulta the dataDaConsulta to set
      */
-    public void setData(Date data) {
-        this.data = data;
+    public void setDataDaConsulta(LocalDate dataDaConsulta) {
+        this.dataDaConsulta = dataDaConsulta;
     }
 
     /**
@@ -251,16 +255,7 @@ public class Consulta {
     /**
      * @return the ultimoAtendimento
      */
-    public Date getUltimoAtendimento() {
-        return ultimoAtendimento;
-    }
-
-    /**
-     * @param ultimoAtendimento the ultimoAtendimento to set
-     */
-    public void setUltimoAtendimento(Date ultimoAtendimento) {
-        this.ultimoAtendimento = ultimoAtendimento;
-    }
+    
 
     /**
      * @return the xpNegAtendAnterior
@@ -359,7 +354,23 @@ public class Consulta {
     public void setFinalizada(boolean finalizada) {
         this.finalizada = finalizada;
     }
+
+    /**
+     * @return the dataDoUltAtendimento
+     */
+    public LocalDate getDataDoUltAtendimento() {
+        return dataDoUltAtendimento;
+    }
+
+    /**
+     * @param dataDoUltAtendimento the dataDoUltAtendimento to set
+     */
+    public void setDataDoUltAtendimento(LocalDate dataDoUltAtendimento) {
+        this.dataDoUltAtendimento = dataDoUltAtendimento;
+    }
+
     
+        
     
     
 }

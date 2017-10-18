@@ -6,20 +6,9 @@
 package Tela;
 
 import Classes.Consulta;
-import Classes.Paciente;
-import Classes.Usuario;
-import com.itextpdf.text.log.SysoLogger;
-import com.itextpdf.tool.xml.html.Break;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
-import javafx.util.converter.LocalDateStringConverter;
-import javafx.util.converter.LocalDateTimeStringConverter;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -29,25 +18,17 @@ import org.hibernate.criterion.Restrictions;
 
 /**
  *
- * @author Cleyton
+ * @author augusto
  */
-public class CadastroDeConsulta extends javax.swing.JFrame {
-
-    DefaultListModel model;
-    List<Paciente> results;
-    int linha;
+public class EditarConsulta extends javax.swing.JFrame {
 
     /**
-     * Creates new form NovoJFrame
+     * Creates new form EditarConsulta
      */
-    public CadastroDeConsulta() {
+    public EditarConsulta(int cod) {
         initComponents();
-        this.setLocationRelativeTo(null);
-        lista.setVisible(false);
-        usuariologado.setText(TelaDeLogin.usuario);
-        setVisible(true);
-
-        model = new DefaultListModel();
+        int co = cod;
+        iniciar(cod);
     }
 
     /**
@@ -61,7 +42,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
 
         jtpConsulta = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        lista = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -77,9 +57,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         btnSalvar = new javax.swing.JButton();
         btnImprimir = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        pesquisa = new javax.swing.JTextField();
-        jLabel25 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -144,21 +121,11 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         usuariologado = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Consulta");
-        setName("frmConsulta"); // NOI18N
-        setResizable(false);
 
         jtpConsulta.setName(""); // NOI18N
         jtpConsulta.setPreferredSize(new java.awt.Dimension(857, 489));
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lista.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                listaMouseClicked(evt);
-            }
-        });
-        jPanel1.add(lista, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 350, 80));
 
         jLabel1.setText("Nome:");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
@@ -208,31 +175,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
 
         btnCancelar.setText("Cancelar");
         jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 300, -1, -1));
-
-        pesquisa.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        pesquisa.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                pesquisaMouseClicked(evt);
-            }
-        });
-        pesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                pesquisaKeyReleased(evt);
-            }
-        });
-        jPanel1.add(pesquisa, new org.netbeans.lib.awtextra.AbsoluteConstraints(113, 12, 500, 28));
-
-        jLabel25.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
-        jLabel25.setText("Busca");
-        jPanel1.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, -1, -1));
-
-        jButton1.setText("Cadastrar Paciente");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 10, -1, -1));
 
         jButton2.setText("Voltar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -674,44 +616,38 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void chkAnamnese01ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAnamnese01ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chkAnamnese01ActionPerformed
+    private void iniciar(int cod) {
+        SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
+        Session s = sf.openSession();
+        Transaction tx = s.beginTransaction();
 
-    private void chkAnamnese03ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAnamnese03ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chkAnamnese03ActionPerformed
+        Criteria criteria = s.createCriteria(Consulta.class);
+        criteria.add(Restrictions.eq("cod", cod));
+        List<Consulta> consultasLista = criteria.list();
+        Consulta consulta = consultasLista.get(0);
+        txtNome.setText(consulta.getPaciente().getNome());
+        txtEndereco.setText(consulta.getPaciente().getEndereco());
+        //falta terminar aqui
+        
+        
+        
 
-    private void txtHabitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHabitoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtHabitoActionPerformed
+    }
 
-    private void txtAlergiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAlergiaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAlergiaActionPerformed
+    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
 
-    private void chkInquerito01ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkInquerito01ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_chkInquerito01ActionPerformed
+    }//GEN-LAST:event_txtNomeActionPerformed
 
-    private void btnSalvar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar1ActionPerformed
-        btnSalvarActionPerformed(evt);
-    }//GEN-LAST:event_btnSalvar1ActionPerformed
+    private void txtNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyReleased
 
-    private void btnSalvar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar2ActionPerformed
-        btnSalvarActionPerformed(evt);
-    }//GEN-LAST:event_btnSalvar2ActionPerformed
-
-    private void btnSalvar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar3ActionPerformed
-        btnSalvarActionPerformed(evt);
-    }//GEN-LAST:event_btnSalvar3ActionPerformed
+    }//GEN-LAST:event_txtNomeKeyReleased
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
         Session s = sf.openSession();
         Transaction tx = s.beginTransaction();
 
-        //vou no banco pego um usuario igual 
+        //vou no banco pego um usuario igual
         Criteria criteria = s.createCriteria(Usuario.class);
         criteria.add(Restrictions.eq("id", TelaDeLogin.cod));
         List<Usuario> use = criteria.list();
@@ -730,15 +666,14 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         consulta.setHabitos(txtHabito.getText());
         consulta.setObs(txaObservacoes.getText());
 
-        
-         //LocalDate ld =  LocalDate.of(Integer.parseInt(ano.getText()),Integer.parseInt(mes.getText()) ,Integer.parseInt(dia.getText()));
-         DateTimeFormatter formato  = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate datawwww = LocalDate.of(Integer.parseInt(ano.getText()),Integer.parseInt(mes.getText()) ,Integer.parseInt(dia.getText()));
-                //parse(dia.getText()+"/"+mes.getText()+"/"+ano.getText(), formato); 
-         
-         consulta.setDataDoUltAtendimento(datawwww);
-         consulta.setDataDaConsulta(LocalDate.now());
-         System.out.println(LocalDate.now());
+        //LocalDate ld =  LocalDate.of(Integer.parseInt(ano.getText()),Integer.parseInt(mes.getText()) ,Integer.parseInt(dia.getText()));
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate datawwww = LocalDate.of(Integer.parseInt(ano.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(dia.getText()));
+        //parse(dia.getText()+"/"+mes.getText()+"/"+ano.getText(), formato);
+
+        consulta.setDataDoUltAtendimento(datawwww);
+        consulta.setDataDaConsulta(LocalDate.now());
+        System.out.println(LocalDate.now());
         consulta.setXpNegAtendAnterior(txaExperiencia.getText());
         consulta.setUsaHigieneBucal(txaHigiene.getText());
         consulta.setTecidosMoles(txaTecidos.getText());
@@ -750,82 +685,53 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         tx.commit();
         s.close();
         JOptionPane.showMessageDialog(null, "Consulta Salva");
-
     }//GEN-LAST:event_btnSalvarActionPerformed
-
-    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-
-    }//GEN-LAST:event_txtNomeActionPerformed
-
-    private void txtNomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyReleased
-
-    }//GEN-LAST:event_txtNomeKeyReleased
-
-    private void pesquisaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pesquisaKeyReleased
-        model.removeAllElements();
-        SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
-        Session s = sf.openSession();
-
-        Criteria crit = s.createCriteria(Paciente.class);
-        if (pesquisa.getText().isEmpty()) {
-            lista.setVisible(false);
-            return;
-        }
-        crit.add(Restrictions.like("nome", pesquisa.getText() + "%"));
-        //crit.add(Restrictions.eq("nome",pesquisa.getText() ));
-        results = crit.list();
-        //lista.setSize(350,results.size()*17);
-        lista.setModel(model);
-        for (Paciente result : results) {
-            model.addElement(result.getNome());
-        }
-        model.setSize(results.size());
-        if (!results.isEmpty()) {
-            lista.setVisible(true);
-        }
-        if (results.isEmpty()) {
-            lista.setVisible(false);
-        }
-
-        s.close();
-
-
-    }//GEN-LAST:event_pesquisaKeyReleased
-
-    private void pesquisaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pesquisaMouseClicked
-
-
-    }//GEN-LAST:event_pesquisaMouseClicked
-
-    private void listaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaMouseClicked
-        //pega a linha selecionada e joga o objeto dentro do paciente
-        linha = lista.getSelectedIndex();
-        Paciente p = Paciente.devolveInstanciaDePaciente();
-        p = results.get(linha);
-        lista.setVisible(false);
-        txtNome.setText(p.getNome());
-        txtEndereco.setText(p.getEndereco());
-        txtRg.setText(p.getRg());
-        txtOe.setText(p.getOrgaoEmissor());
-        txtCpf.setText(p.getCpf());
-        txtFone.setText(p.getFone());
-        txtNome.setEditable(false);
-        txtEndereco.setEditable(false);
-        txtRg.setEditable(false);
-        txtOe.setEditable(false);
-        txtCpf.setEditable(false);
-        txtFone.setEditable(false);
-
-    }//GEN-LAST:event_listaMouseClicked
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        new CadastroPaciente();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void chkAnamnese01ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAnamnese01ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkAnamnese01ActionPerformed
+
+    private void chkAnamnese03ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAnamnese03ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkAnamnese03ActionPerformed
+
+    private void txtAlergiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAlergiaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtAlergiaActionPerformed
+
+    private void txtHabitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHabitoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtHabitoActionPerformed
+
+    private void btnSalvar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar1ActionPerformed
+        btnSalvarActionPerformed(evt);
+    }//GEN-LAST:event_btnSalvar1ActionPerformed
+
+    private void chkInquerito01ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkInquerito01ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkInquerito01ActionPerformed
+
+    private void btnSalvar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar2ActionPerformed
+        btnSalvarActionPerformed(evt);
+    }//GEN-LAST:event_btnSalvar2ActionPerformed
+
+    private void btnSalvar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar3ActionPerformed
+        btnSalvarActionPerformed(evt);
+    }//GEN-LAST:event_btnSalvar3ActionPerformed
+
+    /*
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new EditarConsulta().setVisible(true);
+            }
+        });
+    }
+     */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ano;
@@ -846,7 +752,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     private javax.swing.JCheckBox chkAnamnese03;
     private javax.swing.JCheckBox chkInquerito01;
     private javax.swing.JTextField dia;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -865,7 +770,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
@@ -890,9 +794,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTabbedPane jtpConsulta;
     private javax.swing.JLabel lblOdontograma;
-    private javax.swing.JList<String> lista;
     private javax.swing.JTextField mes;
-    private javax.swing.JTextField pesquisa;
     private javax.swing.JTextArea txaAnamnese01;
     private javax.swing.JTextArea txaAnamnese02;
     private javax.swing.JTextArea txaDescricao;

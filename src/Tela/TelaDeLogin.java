@@ -24,7 +24,8 @@ import org.hibernate.criterion.Restrictions;
  * @author augusto
  */
 public class TelaDeLogin extends javax.swing.JFrame {
-
+    public static String usuario;
+    public static int cod;
     /**
      * Creates new form TelaDeLogin
      */
@@ -152,6 +153,8 @@ public class TelaDeLogin extends javax.swing.JFrame {
         }
         Usuario a = lista.get(0);
         if(a.getSenha().equals(senha)) {
+            usuario = a.getLogin();
+            cod = a.getId();
             AbriMenu(a);
 
         } else {
@@ -163,9 +166,9 @@ public class TelaDeLogin extends javax.swing.JFrame {
 
     private void AbriMenu(Usuario u) {
         if (u.getTipo().equals("Dentista")) {
-            new MenuDentista(u.getLogin());
+            new MenuDentista();
         } else if (u.getTipo().equals("Atendente")) {
-            new MenuAtendente(u.getLogin());
+            new MenuAtendente();
             this.dispose();
         } else {
             new MenuAdmin();

@@ -29,6 +29,7 @@ public class EditarPaciente extends javax.swing.JFrame {
         jTextField1.setText(Integer.toString(cod));
         jTextField2.setText(nome);
         jTextField1.setEditable(false);
+        usuariologado.setText(TelaDeLogin.usuario);
         setVisible(true);
 
     }
@@ -68,6 +69,7 @@ public class EditarPaciente extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jTextField10 = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
+        usuariologado = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -110,6 +112,8 @@ public class EditarPaciente extends javax.swing.JFrame {
         jLabel9.setText("RG");
 
         jLabel10.setText("Orgao Emissor");
+
+        usuariologado.setText("Usuario");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -173,11 +177,17 @@ public class EditarPaciente extends javax.swing.JFrame {
                             .addComponent(jTextField8, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
                             .addComponent(jTextField9))))
                 .addContainerGap(56, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(usuariologado)
+                .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(65, 65, 65)
+                .addContainerGap()
+                .addComponent(usuariologado)
+                .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -293,5 +303,6 @@ public class EditarPaciente extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JLabel usuariologado;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,26 +5,27 @@
  */
 package Tela;
 
-import Util.Banco;
+import Classes.Consulta;
 import Classes.Paciente;
-import Classes.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import jdk.nashorn.internal.objects.NativeArray;
-import org.hibernate.*;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 /**
  *
  * @author augusto
  */
-public class ListarPacientes extends javax.swing.JFrame {
+public class ListarConsultas extends javax.swing.JFrame {
 
     /**
-     * Creates new form ListarPacientes
+     * Creates new form ListarConsultas
      */
-    public ListarPacientes() throws Exception {
+    public ListarConsultas() throws Exception{
         initComponents();
         carregar();
         usuariologado.setText(TelaDeLogin.usuario);
@@ -92,7 +93,7 @@ public class ListarPacientes extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
@@ -115,7 +116,7 @@ public class ListarPacientes extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(usuariologado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -143,10 +144,10 @@ public class ListarPacientes extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String usuarioSelecionado = jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString();
-        Paciente usuario = Paciente.devolveInstanciaDePaciente();
+        Consulta usuario = Consulta.devolveObjConsulta();
         Object i = jTable1.getValueAt(jTable1.getSelectedRow(), 0);
         int a = Integer.parseInt(i.toString());
-        usuario.setId(a);
+        usuario.setCod(a);
         int botao = JOptionPane.YES_NO_OPTION;
         JOptionPane.showConfirmDialog(null, "Deseja Realmente apagar " + usuarioSelecionado, "Cuidado", botao);
         if (usuarioSelecionado.equals("admin")) {
@@ -169,20 +170,14 @@ public class ListarPacientes extends javax.swing.JFrame {
         } catch (Exception e) {
             //vai dar erro não pvt
         }
-
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void carregar() throws Exception {
-         List<Paciente> results; 
-        Paciente usuario = Paciente.devolveInstanciaDePaciente();
+         List<Consulta> results; 
+        Consulta consulta = Consulta.devolveObjConsulta();
         SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
         Session s = sf.openSession();
 
-        Criteria crite = s.createCriteria(Paciente.class);
+        Criteria crite = s.createCriteria(Consulta.class);
         
             results = crite.list();
         
@@ -191,21 +186,31 @@ public class ListarPacientes extends javax.swing.JFrame {
 
         for (int i = 0; i < results.size(); i++) {
 
-            usuario = results.get(i);
+            consulta = results.get(i);
 
-            lista.add(new String[]{"" + usuario.getId() + "", usuario.getNome(),""+usuario.getDataDeNacimento()+"", usuario.getCpf(), usuario.getEndereco(), "" + usuario.getSexo() + ""});
+            lista.add(new String[]{"" + consulta.getCod()+ "", consulta.getPaciente().getNome(),""+consulta.getDataDaConsulta()+ ""});
         }
 
-        String[] colunas = {"Id", "Nome", "Nascimento", "CPF", "Endereço", "Sexo"};
+        String[] colunas = {"Id", "Nome do Paciente", "Data"};
         DefaultTableModel model = new DefaultTableModel(lista.toArray(new String[lista.size()][]), colunas);
         jTable1.setModel(model);
 
         s.close();
     }
+    
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    /*
+    public static void main(String args[]) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ListarConsultas().setVisible(true);
+            }
+        });
+    }
+    */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

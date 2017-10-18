@@ -35,6 +35,7 @@ public class CadastroPaciente extends javax.swing.JFrame {
      */
     public CadastroPaciente() {
         initComponents();
+        usuariologado.setText(TelaDeLogin.usuario);
         setVisible(true);
         this.setLocationRelativeTo(null);
         seleciona();
@@ -76,6 +77,7 @@ public class CadastroPaciente extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jTextField9 = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        usuariologado = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,6 +103,12 @@ public class CadastroPaciente extends javax.swing.JFrame {
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField4ActionPerformed(evt);
+            }
+        });
+
+        jTextField6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField6ActionPerformed(evt);
             }
         });
 
@@ -143,6 +151,8 @@ public class CadastroPaciente extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Dialog", 0, 8)); // NOI18N
         jLabel11.setText("Apenas números");
 
+        usuariologado.setText("Usuario");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -180,10 +190,6 @@ public class CadastroPaciente extends javax.swing.JFrame {
                                 .addComponent(jLabel5)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 271, Short.MAX_VALUE)
-                                        .addComponent(jLabel4)
-                                        .addGap(14, 14, 14))
-                                    .addGroup(layout.createSequentialGroup()
                                         .addGap(6, 6, 6)
                                         .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -192,7 +198,13 @@ public class CadastroPaciente extends javax.swing.JFrame {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel11)
                                             .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 0, Short.MAX_VALUE))))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(usuariologado)
+                                            .addComponent(jLabel4))
+                                        .addGap(14, 14, 14))))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jTextField7)
                                 .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
@@ -205,7 +217,9 @@ public class CadastroPaciente extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addGap(5, 5, 5)
+                .addComponent(usuariologado)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -273,10 +287,10 @@ public class CadastroPaciente extends javax.swing.JFrame {
         paciente.setCpf(jTextField2.getText());
         //setar data de nascimento
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        DateTimeFormatter formato  = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate data = LocalDate.parse(jTextField4.getText()+"/"+jTextField5.getText()+"/"+jTextField6.getText(), formato);
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate data = LocalDate.parse(jTextField4.getText() + "/" + jTextField5.getText() + "/" + jTextField6.getText(), formato);
         paciente.setDataDeNacimento(data);
-        
+
         paciente.setEndereco(jTextField3.getText());
         paciente.setFone(jTextField7.getText());
         paciente.setRg(jTextField8.getText());
@@ -319,6 +333,10 @@ public class CadastroPaciente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField4ActionPerformed
 
+    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -350,6 +368,7 @@ public class CadastroPaciente extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JLabel usuariologado;
     // End of variables declaration//GEN-END:variables
 
 }
