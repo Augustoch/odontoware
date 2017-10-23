@@ -6,6 +6,7 @@
 package Tela;
 
 import Classes.Consulta;
+import Classes.Usuario;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -21,14 +22,15 @@ import org.hibernate.criterion.Restrictions;
  * @author augusto
  */
 public class EditarConsulta extends javax.swing.JFrame {
-
+    int codigo;
     /**
      * Creates new form EditarConsulta
      */
     public EditarConsulta(int cod) {
         initComponents();
-        int co = cod;
+        codigo = cod;
         iniciar(cod);
+        setVisible(true);
     }
 
     /**
@@ -86,6 +88,7 @@ public class EditarConsulta extends javax.swing.JFrame {
         btnSalvar1 = new javax.swing.JButton();
         btnImprimir1 = new javax.swing.JButton();
         btnCancelar1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -118,9 +121,10 @@ public class EditarConsulta extends javax.swing.JFrame {
         btnSalvar3 = new javax.swing.JButton();
         btnImprimir3 = new javax.swing.JButton();
         btnCancelar3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         usuariologado = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jtpConsulta.setName(""); // NOI18N
         jtpConsulta.setPreferredSize(new java.awt.Dimension(857, 489));
@@ -259,6 +263,13 @@ public class EditarConsulta extends javax.swing.JFrame {
 
         btnCancelar1.setText("Cancelar");
 
+        jButton3.setText("Voltar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -323,6 +334,8 @@ public class EditarConsulta extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton3)
+                .addGap(18, 18, 18)
                 .addComponent(btnSalvar1)
                 .addGap(18, 18, 18)
                 .addComponent(btnImprimir1)
@@ -379,7 +392,8 @@ public class EditarConsulta extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar1)
                     .addComponent(btnImprimir1)
-                    .addComponent(btnCancelar1))
+                    .addComponent(btnCancelar1)
+                    .addComponent(jButton3))
                 .addContainerGap())
         );
 
@@ -457,18 +471,18 @@ public class EditarConsulta extends javax.swing.JFrame {
                             .addComponent(jLabel19)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(27, 27, 27)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(dia, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel26)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(mes, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(22, 22, 22)
-                                        .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(ano, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel18))))
+                                .addComponent(jLabel18))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(dia, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel26)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(mes, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(22, 22, 22)
+                                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ano, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 496, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -533,6 +547,13 @@ public class EditarConsulta extends javax.swing.JFrame {
 
         btnCancelar3.setText("Cancelar");
 
+        jButton4.setText("Voltar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -558,6 +579,8 @@ public class EditarConsulta extends javax.swing.JFrame {
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton4)
+                .addGap(18, 18, 18)
                 .addComponent(btnSalvar3)
                 .addGap(18, 18, 18)
                 .addComponent(btnImprimir3)
@@ -583,7 +606,8 @@ public class EditarConsulta extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar3)
                     .addComponent(btnImprimir3)
-                    .addComponent(btnCancelar3))
+                    .addComponent(btnCancelar3)
+                    .addComponent(jButton4))
                 .addContainerGap())
         );
 
@@ -609,7 +633,7 @@ public class EditarConsulta extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(usuariologado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(jtpConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 609, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -624,10 +648,32 @@ public class EditarConsulta extends javax.swing.JFrame {
         Criteria criteria = s.createCriteria(Consulta.class);
         criteria.add(Restrictions.eq("cod", cod));
         List<Consulta> consultasLista = criteria.list();
-        Consulta consulta = consultasLista.get(0);
-        txtNome.setText(consulta.getPaciente().getNome());
-        txtEndereco.setText(consulta.getPaciente().getEndereco());
-        //falta terminar aqui
+        Consulta consultaRef = consultasLista.get(0);
+        txtNome.setText(consultaRef.getPaciente().getNome());
+        txtEndereco.setText(consultaRef.getPaciente().getEndereco());
+        txtRg.setText(consultaRef.getPaciente().getRg());
+        txtOe.setText(consultaRef.getPaciente().getOrgaoEmissor());
+        txtCpf.setText(consultaRef.getPaciente().getCpf());
+        txtFone.setText(consultaRef.getPaciente().getFone());
+        txaAnamnese01.setText(consultaRef.getQueixa());
+        txaAnamnese02.setText(consultaRef.getDoencaDesc());
+        txtMedicacao.setText(consultaRef.getMedicacao());
+        txtCirurgia.setText(consultaRef.getCirurgias());
+        txtAlergia.setText(consultaRef.getAlergias());
+        txtHabito.setText(consultaRef.getHabitos());
+        txaObservacoes.setText(consultaRef.getObs());
+        txaExperiencia.setText(consultaRef.getXpNegAtendAnterior());
+        txaHigiene.setText(consultaRef.getUsaHigieneBucal());
+        txaTecidos.setText(consultaRef.getTecidosMoles());
+        txaDescricao.setText(consultaRef.getExameDental());
+        jTextArea1.setText(consultaRef.getPlanosTratamento() );
+        txtNome.setEditable(false);
+        txtEndereco.setEditable(false);
+        txtRg.setEditable(false);
+        txtOe.setEditable(false);
+        txtCpf.setEditable(false);
+        txtFone.setEditable(false);
+        
         
         
         
@@ -648,13 +694,15 @@ public class EditarConsulta extends javax.swing.JFrame {
         Transaction tx = s.beginTransaction();
 
         //vou no banco pego um usuario igual
-        Criteria criteria = s.createCriteria(Usuario.class);
-        criteria.add(Restrictions.eq("id", TelaDeLogin.cod));
-        List<Usuario> use = criteria.list();
-
+        Criteria criteria = s.createCriteria(Consulta.class);
+        criteria.add(Restrictions.eq("cod", codigo));
+        List<Consulta> use = criteria.list();
+        
+        
         Consulta consulta = Consulta.devolveObjConsulta();
-        consulta.setPaciente(results.get(linha));
-        consulta.setDentista(use.get(0));
+        consulta.setCod(codigo);
+        consulta.setPaciente(use.get(0).getPaciente());
+        consulta.setDentista(use.get(0).getDentista());
         consulta.setQueixa(txaAnamnese01.getText());
         consulta.setDoenca(chkAnamnese01.isSelected());
         consulta.setDoencaDesc(txaAnamnese02.getText());
@@ -666,12 +714,10 @@ public class EditarConsulta extends javax.swing.JFrame {
         consulta.setHabitos(txtHabito.getText());
         consulta.setObs(txaObservacoes.getText());
 
-        //LocalDate ld =  LocalDate.of(Integer.parseInt(ano.getText()),Integer.parseInt(mes.getText()) ,Integer.parseInt(dia.getText()));
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate datawwww = LocalDate.of(Integer.parseInt(ano.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(dia.getText()));
-        //parse(dia.getText()+"/"+mes.getText()+"/"+ano.getText(), formato);
-
-        consulta.setDataDoUltAtendimento(datawwww);
+       
+        LocalDate dataAnterior = LocalDate.of(Integer.parseInt(ano.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(dia.getText()));
+       
+        consulta.setDataDoUltAtendimento(dataAnterior);
         consulta.setDataDaConsulta(LocalDate.now());
         System.out.println(LocalDate.now());
         consulta.setXpNegAtendAnterior(txaExperiencia.getText());
@@ -681,10 +727,10 @@ public class EditarConsulta extends javax.swing.JFrame {
         consulta.setExameDental(txaDescricao.getText());
         consulta.setPlanosTratamento(jTextArea1.getText());
 
-        s.save(consulta);
+        s.merge(consulta);
         tx.commit();
         s.close();
-        JOptionPane.showMessageDialog(null, "Consulta Salva");
+        JOptionPane.showMessageDialog(null, "Consulta Atualizada");
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -723,6 +769,14 @@ public class EditarConsulta extends javax.swing.JFrame {
         btnSalvarActionPerformed(evt);
     }//GEN-LAST:event_btnSalvar3ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /*
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -753,6 +807,8 @@ public class EditarConsulta extends javax.swing.JFrame {
     private javax.swing.JCheckBox chkInquerito01;
     private javax.swing.JTextField dia;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

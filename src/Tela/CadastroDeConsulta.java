@@ -7,7 +7,9 @@ package Tela;
 
 import Classes.Consulta;
 import Classes.Paciente;
+import Classes.Servico;
 import Classes.Usuario;
+import Dao.ServicoDao;
 import com.itextpdf.text.log.SysoLogger;
 import com.itextpdf.tool.xml.html.Break;
 import java.text.SimpleDateFormat;
@@ -42,11 +44,12 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
      */
     public CadastroDeConsulta() {
         initComponents();
+        carregar();
         this.setLocationRelativeTo(null);
         lista.setVisible(false);
         usuariologado.setText(TelaDeLogin.usuario);
         setVisible(true);
-
+        
         model = new DefaultListModel();
     }
 
@@ -59,6 +62,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        usuariologado = new javax.swing.JLabel();
         jtpConsulta = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         lista = new javax.swing.JList<>();
@@ -81,6 +85,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         jLabel25 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -141,12 +146,29 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         btnSalvar3 = new javax.swing.JButton();
         btnImprimir3 = new javax.swing.JButton();
         btnCancelar3 = new javax.swing.JButton();
-        usuariologado = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        servicosExistentes = new javax.swing.JList<>();
+        jLabel28 = new javax.swing.JLabel();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jLabel29 = new javax.swing.JLabel();
+        addServico = new javax.swing.JButton();
+        removerServico = new javax.swing.JButton();
+        descconto = new javax.swing.JTextField();
+        jLabel30 = new javax.swing.JLabel();
+        valorFinal = new javax.swing.JTextField();
+        jLabel31 = new javax.swing.JLabel();
+        btnSalvar4 = new javax.swing.JButton();
+        btnImprimir4 = new javax.swing.JButton();
+        btnCancelar4 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consulta");
         setName("frmConsulta"); // NOI18N
         setResizable(false);
+
+        usuariologado.setText("Usuario");
 
         jtpConsulta.setName(""); // NOI18N
         jtpConsulta.setPreferredSize(new java.awt.Dimension(857, 489));
@@ -241,6 +263,19 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 480, -1, -1));
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, -40, -1, -1));
 
         jtpConsulta.addTab("Ficha clínica", jPanel1);
 
@@ -527,7 +562,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(ano, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel18))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 496, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 546, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -604,7 +639,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel23)
-                                .addGap(0, 555, Short.MAX_VALUE))
+                                .addGap(0, 605, Short.MAX_VALUE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jScrollPane7)
                                 .addContainerGap())))
@@ -647,24 +682,125 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
 
         jtpConsulta.addTab("Odontograma", jPanel4);
 
-        usuariologado.setText("Usuario");
+        jScrollPane9.setViewportView(servicosExistentes);
+
+        jLabel28.setText("Serviços");
+
+        jScrollPane10.setViewportView(jList1);
+
+        jLabel29.setText("Serviços Prestados");
+
+        addServico.setText("Add >>");
+
+        removerServico.setText("<<Remover");
+
+        jLabel30.setText("Desconto");
+
+        jLabel31.setText("Valor Final");
+
+        btnSalvar4.setText("Salvar");
+        btnSalvar4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvar4ActionPerformed(evt);
+            }
+        });
+
+        btnImprimir4.setText("Imprimir");
+
+        btnCancelar4.setText("Cancelar");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel28)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(removerServico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(addServico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel29)
+                            .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel31)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(descconto)))
+                            .addGap(81, 81, 81))
+                        .addGroup(jPanel6Layout.createSequentialGroup()
+                            .addComponent(valorFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap()))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(btnSalvar4)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnImprimir4)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCancelar4)
+                        .addGap(20, 20, 20))))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(93, 93, 93)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel28)
+                    .addComponent(jLabel29))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                            .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(addServico)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(removerServico)))
+                .addGap(38, 38, 38)
+                .addComponent(jLabel30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(descconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(jLabel31)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(valorFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSalvar4)
+                    .addComponent(btnImprimir4)
+                    .addComponent(btnCancelar4))
+                .addContainerGap())
+        );
+
+        jtpConsulta.addTab("Serviços", jPanel6);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(usuariologado)
-                .addGap(217, 217, 217))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jtpConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 874, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 869, Short.MAX_VALUE)
+                        .addComponent(usuariologado))
+                    .addComponent(jtpConsulta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 924, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(usuariologado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -673,7 +809,17 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    private void carregar(){
+        DefaultListModel modelS  = new DefaultListModel();
+        servicosExistentes.setModel(modelS);
+        List<Servico> servicos = new ServicoDao().retornaTodosOsServicos();
+        for (Servico servico : servicos) {
+            modelS.addElement(servico.getNome()+" - R$: "+servico.getPreco());
+        }
+        
+    }
+    
     private void chkAnamnese01ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAnamnese01ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_chkAnamnese01ActionPerformed
@@ -826,25 +972,34 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void btnSalvar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar4ActionPerformed
+        btnSalvarActionPerformed(evt);
+    }//GEN-LAST:event_btnSalvar4ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addServico;
     private javax.swing.JTextField ano;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCancelar1;
     private javax.swing.JButton btnCancelar2;
     private javax.swing.JButton btnCancelar3;
+    private javax.swing.JButton btnCancelar4;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnImprimir1;
     private javax.swing.JButton btnImprimir2;
     private javax.swing.JButton btnImprimir3;
+    private javax.swing.JButton btnImprimir4;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnSalvar1;
     private javax.swing.JButton btnSalvar2;
     private javax.swing.JButton btnSalvar3;
+    private javax.swing.JButton btnSalvar4;
     private javax.swing.JCheckBox chkAnamnese01;
     private javax.swing.JCheckBox chkAnamnese02;
     private javax.swing.JCheckBox chkAnamnese03;
     private javax.swing.JCheckBox chkInquerito01;
+    private javax.swing.JTextField descconto;
     private javax.swing.JTextField dia;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -868,18 +1023,26 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -887,12 +1050,15 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTabbedPane jtpConsulta;
     private javax.swing.JLabel lblOdontograma;
     private javax.swing.JList<String> lista;
     private javax.swing.JTextField mes;
     private javax.swing.JTextField pesquisa;
+    private javax.swing.JButton removerServico;
+    private javax.swing.JList<String> servicosExistentes;
     private javax.swing.JTextArea txaAnamnese01;
     private javax.swing.JTextArea txaAnamnese02;
     private javax.swing.JTextArea txaDescricao;
@@ -911,5 +1077,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     private javax.swing.JTextField txtOe;
     private javax.swing.JTextField txtRg;
     private javax.swing.JLabel usuariologado;
+    private javax.swing.JTextField valorFinal;
     // End of variables declaration//GEN-END:variables
 }

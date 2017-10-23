@@ -7,12 +7,15 @@ package Classes;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,11 +30,11 @@ public class Consulta {
     @GeneratedValue @Id
     private int cod;    
     @ManyToOne
-    //@JoinColumn(table = "Paciente")
     private Paciente paciente;
     @ManyToOne
-    //@JoinColumn(table = "Usuario")
     private Usuario dentista;
+    @ManyToMany
+    private List<Servico> servicos;
     private LocalDate dataDaConsulta;
     private LocalDate dataDoUltAtendimento;
     private String queixa;
@@ -367,6 +370,20 @@ public class Consulta {
      */
     public void setDataDoUltAtendimento(LocalDate dataDoUltAtendimento) {
         this.dataDoUltAtendimento = dataDoUltAtendimento;
+    }
+
+    /**
+     * @return the servicos
+     */
+    public List<Servico> getServicos() {
+        return servicos;
+    }
+
+    /**
+     * @param servicos the servicos to set
+     */
+    public void setServicos(List<Servico> servicos) {
+        this.servicos = servicos;
     }
 
     

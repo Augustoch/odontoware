@@ -19,22 +19,24 @@ import org.hibernate.criterion.Restrictions;
  * @author augusto
  */
 public class Banco {
-     public static void salvar(Object o){
-          SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
+
+    public static void salvar(Object o) {
+        SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
         Session s = sf.openSession();
         Transaction tx = s.beginTransaction();
-        
-             s.merge(o);
-             tx.commit();
-             s.close();
-     }
-     public static List buscar(){
-          SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
-            Session s = sf.openSession();
-            
-          Criteria crit = s.createCriteria(Usuario.class);
-          List results = crit.list(); 
-          s.close();
-        return results; 
-     }
+
+        s.merge(o);
+        tx.commit();
+        s.close();
+    }
+
+    public static List buscar() {
+        SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
+        Session s = sf.openSession();
+
+        Criteria crit = s.createCriteria(Usuario.class);
+        List results = crit.list();
+        s.close();
+        return results;
+    }
 }

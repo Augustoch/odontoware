@@ -49,7 +49,7 @@ public class ListarConsultas extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         usuariologado = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jButton1.setText("Editar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -134,8 +134,9 @@ public class ListarConsultas extends javax.swing.JFrame {
         try {
             Object i = jTable1.getValueAt(jTable1.getSelectedRow(), 0);
             int a = Integer.parseInt(i.toString());
-            new EditarPaciente(a, jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+            new EditarConsulta(a);
             carregar();
+            
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "Selecione um usuário");
@@ -188,7 +189,7 @@ public class ListarConsultas extends javax.swing.JFrame {
 
             consulta = results.get(i);
 
-            lista.add(new String[]{"" + consulta.getCod()+ "", consulta.getPaciente().getNome(),""+consulta.getDataDaConsulta()+ ""});
+            lista.add(new String[]{"" + consulta.getCod()+ "", consulta.getPaciente().getNome(),""+consulta.getDataDoUltAtendimento()+ ""});
         }
 
         String[] colunas = {"Id", "Nome do Paciente", "Data"};
