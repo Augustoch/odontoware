@@ -6,10 +6,18 @@
 package Tela;
 
 import Classes.Consulta;
+import Classes.Paciente;
+import Classes.Servico;
 import Classes.Usuario;
+import Dao.ServicoDao;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -23,6 +31,15 @@ import org.hibernate.criterion.Restrictions;
  */
 public class EditarConsulta extends javax.swing.JFrame {
     int codigo;
+    DefaultListModel model;
+    List<Paciente> results;
+    int linha;
+    List<Servico> servicos;
+    List<Servico> servicosP = new ArrayList<>();
+    double valorFinalPreco = 0;
+    DefaultListModel dlmAdicionar = new DefaultListModel();
+    BigDecimal bd;
+
     /**
      * Creates new form EditarConsulta
      */
@@ -30,6 +47,7 @@ public class EditarConsulta extends javax.swing.JFrame {
         initComponents();
         codigo = cod;
         iniciar(cod);
+        carregar();
         setVisible(true);
     }
 
@@ -59,7 +77,6 @@ public class EditarConsulta extends javax.swing.JFrame {
         btnSalvar = new javax.swing.JButton();
         btnImprimir = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -88,7 +105,6 @@ public class EditarConsulta extends javax.swing.JFrame {
         btnSalvar1 = new javax.swing.JButton();
         btnImprimir1 = new javax.swing.JButton();
         btnCancelar1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -121,7 +137,24 @@ public class EditarConsulta extends javax.swing.JFrame {
         btnSalvar3 = new javax.swing.JButton();
         btnImprimir3 = new javax.swing.JButton();
         btnCancelar3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        servicosExistentes = new javax.swing.JList<>();
+        jLabel28 = new javax.swing.JLabel();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        servicosPrestados = new javax.swing.JList<>();
+        jLabel29 = new javax.swing.JLabel();
+        addServico = new javax.swing.JButton();
+        removerServico = new javax.swing.JButton();
+        desconto = new javax.swing.JTextField();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        btnSalvar4 = new javax.swing.JButton();
+        btnImprimir4 = new javax.swing.JButton();
+        btnCancelar4 = new javax.swing.JButton();
+        valorFinalw = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        valorFinal = new javax.swing.JLabel();
         usuariologado = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -172,21 +205,13 @@ public class EditarConsulta extends javax.swing.JFrame {
                 btnSalvarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 300, -1, -1));
+        jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 520, -1, -1));
 
         btnImprimir.setText("Imprimir");
-        jPanel1.add(btnImprimir, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 300, -1, -1));
+        jPanel1.add(btnImprimir, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 520, -1, -1));
 
         btnCancelar.setText("Cancelar");
-        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 300, -1, -1));
-
-        jButton2.setText("Voltar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 480, -1, -1));
+        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 520, -1, -1));
 
         jtpConsulta.addTab("Ficha clínica", jPanel1);
 
@@ -263,13 +288,6 @@ public class EditarConsulta extends javax.swing.JFrame {
 
         btnCancelar1.setText("Cancelar");
 
-        jButton3.setText("Voltar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -290,7 +308,7 @@ public class EditarConsulta extends javax.swing.JFrame {
                                 .addComponent(jLabel9)
                                 .addGap(18, 18, 18)
                                 .addComponent(chkAnamnese01)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -334,8 +352,6 @@ public class EditarConsulta extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addGap(18, 18, 18)
                 .addComponent(btnSalvar1)
                 .addGap(18, 18, 18)
                 .addComponent(btnImprimir1)
@@ -392,8 +408,7 @@ public class EditarConsulta extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar1)
                     .addComponent(btnImprimir1)
-                    .addComponent(btnCancelar1)
-                    .addComponent(jButton3))
+                    .addComponent(btnCancelar1))
                 .addContainerGap())
         );
 
@@ -483,7 +498,7 @@ public class EditarConsulta extends javax.swing.JFrame {
                                 .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(ano, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 496, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 547, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -547,13 +562,6 @@ public class EditarConsulta extends javax.swing.JFrame {
 
         btnCancelar3.setText("Cancelar");
 
-        jButton4.setText("Voltar");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -567,7 +575,7 @@ public class EditarConsulta extends javax.swing.JFrame {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel23)
-                                .addGap(0, 555, Short.MAX_VALUE))
+                                .addGap(0, 606, Short.MAX_VALUE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jScrollPane7)
                                 .addContainerGap())))
@@ -579,8 +587,6 @@ public class EditarConsulta extends javax.swing.JFrame {
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton4)
-                .addGap(18, 18, 18)
                 .addComponent(btnSalvar3)
                 .addGap(18, 18, 18)
                 .addComponent(btnImprimir3)
@@ -606,12 +612,146 @@ public class EditarConsulta extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar3)
                     .addComponent(btnImprimir3)
-                    .addComponent(btnCancelar3)
-                    .addComponent(jButton4))
+                    .addComponent(btnCancelar3))
                 .addContainerGap())
         );
 
         jtpConsulta.addTab("Odontograma", jPanel4);
+
+        servicosExistentes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane9.setViewportView(servicosExistentes);
+
+        jLabel28.setText("Serviços");
+
+        jScrollPane10.setViewportView(servicosPrestados);
+
+        jLabel29.setText("Serviços Prestados");
+
+        addServico.setText("Add >>");
+        addServico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addServicoActionPerformed(evt);
+            }
+        });
+
+        removerServico.setText("<<Remover");
+        removerServico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removerServicoActionPerformed(evt);
+            }
+        });
+
+        desconto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                descontoKeyReleased(evt);
+            }
+        });
+
+        jLabel30.setText("Desconto");
+
+        jLabel31.setText("Valor Final");
+
+        btnSalvar4.setText("Salvar");
+        btnSalvar4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvar4ActionPerformed(evt);
+            }
+        });
+
+        btnImprimir4.setText("Imprimir");
+
+        btnCancelar4.setText("Cancelar");
+
+        valorFinalw.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        valorFinalw.setText("R$");
+
+        jLabel32.setText("%");
+
+        valorFinal.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        valorFinal.setText("0,00");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel28)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(removerServico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(addServico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel29)
+                            .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(btnSalvar4)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnImprimir4)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCancelar4)
+                        .addGap(20, 20, 20))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(valorFinalw)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(valorFinal))
+                            .addComponent(jLabel31)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(desconto))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel32)))
+                        .addGap(24, 24, 24))))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(93, 93, 93)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel28)
+                    .addComponent(jLabel29))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(addServico)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(removerServico))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane9)
+                            .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))))
+                .addGap(38, 38, 38)
+                .addComponent(jLabel30)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(desconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel32))
+                .addGap(38, 38, 38)
+                .addComponent(jLabel31)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(valorFinalw)
+                    .addComponent(valorFinal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSalvar4)
+                    .addComponent(btnImprimir4)
+                    .addComponent(btnCancelar4))
+                .addContainerGap())
+        );
+
+        jtpConsulta.addTab("Serviços", jPanel6);
 
         usuariologado.setText("Usuario");
 
@@ -625,7 +765,7 @@ public class EditarConsulta extends javax.swing.JFrame {
                 .addGap(217, 217, 217))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jtpConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 874, Short.MAX_VALUE)
+                .addComponent(jtpConsulta, javax.swing.GroupLayout.DEFAULT_SIZE, 925, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -649,6 +789,7 @@ public class EditarConsulta extends javax.swing.JFrame {
         criteria.add(Restrictions.eq("cod", cod));
         List<Consulta> consultasLista = criteria.list();
         Consulta consultaRef = consultasLista.get(0);
+        
         txtNome.setText(consultaRef.getPaciente().getNome());
         txtEndereco.setText(consultaRef.getPaciente().getEndereco());
         txtRg.setText(consultaRef.getPaciente().getRg());
@@ -667,6 +808,15 @@ public class EditarConsulta extends javax.swing.JFrame {
         txaTecidos.setText(consultaRef.getTecidosMoles());
         txaDescricao.setText(consultaRef.getExameDental());
         jTextArea1.setText(consultaRef.getPlanosTratamento() );
+        dia.setText(Integer.toString(consultaRef.getDataDaConsulta().getDayOfMonth()));
+        mes.setText(Integer.toString(consultaRef.getDataDaConsulta().getMonthValue()));
+        ano.setText(Integer.toString(consultaRef.getDataDaConsulta().getYear()));
+        servicosP = consultaRef.getServicos();
+        for (Servico s1 : servicosP) {
+            dlmAdicionar.addElement(s1.getNome());
+        }
+        valorFinal.setText(Double.toString(consultaRef.getValor()));
+        servicosPrestados.setModel(dlmAdicionar);
         txtNome.setEditable(false);
         txtEndereco.setEditable(false);
         txtRg.setEditable(false);
@@ -675,6 +825,17 @@ public class EditarConsulta extends javax.swing.JFrame {
         txtFone.setEditable(false);
         
         
+        
+        
+
+    }
+    private void carregar() {
+        DefaultListModel modelS = new DefaultListModel();
+        servicosExistentes.setModel(modelS);
+        servicos = new ServicoDao().retornaTodosOsServicos();
+        for (Servico servico : servicos) {
+            modelS.addElement(servico.getNome() + " - R$: " + servico.getPreco());
+        }
         
         
 
@@ -726,16 +887,14 @@ public class EditarConsulta extends javax.swing.JFrame {
         consulta.setIngeriAlimentosbebidasRefeicoes(chkInquerito01.isSelected());
         consulta.setExameDental(txaDescricao.getText());
         consulta.setPlanosTratamento(jTextArea1.getText());
-
+        consulta.setServicos(servicosP);
+        consulta.setValor(Double.parseDouble(valorFinal.getText()));
+        consulta.setDesconto(Integer.parseInt(desconto.getText()));
         s.merge(consulta);
         tx.commit();
         s.close();
         JOptionPane.showMessageDialog(null, "Consulta Atualizada");
     }//GEN-LAST:event_btnSalvarActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void chkAnamnese01ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAnamnese01ActionPerformed
         // TODO add your handling code here:
@@ -769,13 +928,83 @@ public class EditarConsulta extends javax.swing.JFrame {
         btnSalvarActionPerformed(evt);
     }//GEN-LAST:event_btnSalvar3ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        this.dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void addServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addServicoActionPerformed
+        dlmAdicionar.removeAllElements();
+        valorFinalPreco = 0;
+        int in = servicosExistentes.getSelectedIndex();
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+        for (Servico sw : servicos) {
+            if (servicosExistentes.getSelectedValue().contains(sw.getNome())) {
+                servicosP.add(sw);
+
+            }
+        }
+        for (Servico s : servicosP) {
+            dlmAdicionar.addElement(s.getNome());
+
+            valorFinalPreco += s.getPreco();
+        }
+        servicosPrestados.setModel(dlmAdicionar);
+
+        bd = new BigDecimal(valorFinalPreco).setScale(3, RoundingMode.HALF_EVEN);
+        valorFinal.setText(Double.toString(bd.doubleValue()));
+
+    }//GEN-LAST:event_addServicoActionPerformed
+
+    private void removerServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerServicoActionPerformed
+        try {
+            if (valorFinalPreco == 0) {
+                throw new Exception();
+            }
+            valorFinalPreco = 0;
+            int count = 0;
+            for (Iterator<Servico> i = servicosP.iterator(); i.hasNext();) {
+                Servico s = i.next();
+
+                if (s.getNome() == servicosPrestados.getSelectedValue() && count == 0) {
+                    i.remove();
+                    count++;
+
+                }
+            }
+
+            //if(servicosPrestados.getSelectedValue())
+            /*
+            for (Servico s : servicosP) {
+                int count = 0;
+
+                if (s.getNome() == servicosPrestados.getSelectedValue() && count == 0) {
+                    System.out.println("cond1 ___ " + s.getNome() + " cond2_________" + servicosPrestados.getSelectedValue());
+                    servicosP.remove(s);
+                    count++;
+
+                }
+            }
+            */
+            dlmAdicionar.removeAllElements();
+            for (Servico s : servicosP) {
+                dlmAdicionar.addElement(s.getNome());
+                valorFinalPreco += s.getPreco();
+            }
+
+            bd = new BigDecimal(valorFinalPreco).setScale(3, RoundingMode.HALF_EVEN);
+            valorFinal.setText(Double.toString(bd.doubleValue()));
+            servicosPrestados.setModel(dlmAdicionar);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(null, "Selecione um item para retirar");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Erro");
+        }
+    }//GEN-LAST:event_removerServicoActionPerformed
+
+    private void descontoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_descontoKeyReleased
+        double vfp = Double.parseDouble(valorFinal.getText()) - Double.parseDouble(valorFinal.getText()) * (Double.parseDouble(desconto.getText()) / 100);
+        valorFinal.setText(Double.toString(vfp));
+    }//GEN-LAST:event_descontoKeyReleased
+
+    private void btnSalvar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar4ActionPerformed
+        btnSalvarActionPerformed(evt);
+    }//GEN-LAST:event_btnSalvar4ActionPerformed
 
     /*
     public static void main(String args[]) {
@@ -788,27 +1017,29 @@ public class EditarConsulta extends javax.swing.JFrame {
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addServico;
     private javax.swing.JTextField ano;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCancelar1;
     private javax.swing.JButton btnCancelar2;
     private javax.swing.JButton btnCancelar3;
+    private javax.swing.JButton btnCancelar4;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnImprimir1;
     private javax.swing.JButton btnImprimir2;
     private javax.swing.JButton btnImprimir3;
+    private javax.swing.JButton btnImprimir4;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnSalvar1;
     private javax.swing.JButton btnSalvar2;
     private javax.swing.JButton btnSalvar3;
+    private javax.swing.JButton btnSalvar4;
     private javax.swing.JCheckBox chkAnamnese01;
     private javax.swing.JCheckBox chkAnamnese02;
     private javax.swing.JCheckBox chkAnamnese03;
     private javax.swing.JCheckBox chkInquerito01;
+    private javax.swing.JTextField desconto;
     private javax.swing.JTextField dia;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -828,7 +1059,12 @@ public class EditarConsulta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -839,7 +1075,9 @@ public class EditarConsulta extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -847,10 +1085,14 @@ public class EditarConsulta extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTabbedPane jtpConsulta;
     private javax.swing.JLabel lblOdontograma;
     private javax.swing.JTextField mes;
+    private javax.swing.JButton removerServico;
+    private javax.swing.JList<String> servicosExistentes;
+    private javax.swing.JList<String> servicosPrestados;
     private javax.swing.JTextArea txaAnamnese01;
     private javax.swing.JTextArea txaAnamnese02;
     private javax.swing.JTextArea txaDescricao;
@@ -869,5 +1111,7 @@ public class EditarConsulta extends javax.swing.JFrame {
     private javax.swing.JTextField txtOe;
     private javax.swing.JTextField txtRg;
     private javax.swing.JLabel usuariologado;
+    private javax.swing.JLabel valorFinal;
+    private javax.swing.JLabel valorFinalw;
     // End of variables declaration//GEN-END:variables
 }

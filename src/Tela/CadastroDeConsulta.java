@@ -158,7 +158,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         jLabel29 = new javax.swing.JLabel();
         addServico = new javax.swing.JButton();
         removerServico = new javax.swing.JButton();
-        descconto = new javax.swing.JTextField();
+        desconto = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         btnSalvar4 = new javax.swing.JButton();
@@ -710,6 +710,12 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
             }
         });
 
+        desconto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                descontoKeyReleased(evt);
+            }
+        });
+
         jLabel30.setText("Desconto");
 
         jLabel31.setText("Valor Final");
@@ -771,7 +777,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(descconto))
+                                    .addComponent(desconto))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel32)))
                         .addGap(24, 24, 24))))
@@ -798,7 +804,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
                 .addComponent(jLabel30)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(descconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(desconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel32))
                 .addGap(38, 38, 38)
                 .addComponent(jLabel31)
@@ -906,6 +912,9 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         consulta.setAlergias(txtAlergia.getText());
         consulta.setHabitos(txtHabito.getText());
         consulta.setObs(txaObservacoes.getText());
+        consulta.setServicos(servicosP);
+        consulta.setDesconto(Integer.parseInt(desconto.getText()));
+        consulta.setValor(Double.parseDouble(valorFinal.getText()));
 
         //LocalDate ld =  LocalDate.of(Integer.parseInt(ano.getText()),Integer.parseInt(mes.getText()) ,Integer.parseInt(dia.getText()));
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -1040,8 +1049,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
             for (Iterator<Servico> i = servicosP.iterator(); i.hasNext();) {
                 Servico s = i.next();
 
-                
-
                 if (s.getNome() == servicosPrestados.getSelectedValue() && count == 0) {
                     i.remove();
                     count++;
@@ -1074,10 +1081,15 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         } catch (ArrayIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(null, "Selecione um item para retirar");
         } catch (Exception ex) {
-            Logger.getLogger(CadastroDeConsulta.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Erro");
         }
 
     }//GEN-LAST:event_removerServicoActionPerformed
+
+    private void descontoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_descontoKeyReleased
+        double vfp = Double.parseDouble(valorFinal.getText()) - Double.parseDouble(valorFinal.getText()) * (Double.parseDouble(desconto.getText()) / 100);
+        valorFinal.setText(Double.toString(vfp));
+    }//GEN-LAST:event_descontoKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1102,7 +1114,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     private javax.swing.JCheckBox chkAnamnese02;
     private javax.swing.JCheckBox chkAnamnese03;
     private javax.swing.JCheckBox chkInquerito01;
-    private javax.swing.JTextField descconto;
+    private javax.swing.JTextField desconto;
     private javax.swing.JTextField dia;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
