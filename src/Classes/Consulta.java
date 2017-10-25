@@ -53,7 +53,9 @@ public class Consulta {
     private boolean ingeriAlimentosbebidasRefeicoes;
     private String exameDental;
     private String planosTratamento;
-    private boolean finalizada; 
+    private boolean finalizada;
+    private double valor;
+    private int desconto;
     
     public static Consulta devolveObjConsulta(){
         return new Consulta();
@@ -384,6 +386,34 @@ public class Consulta {
      */
     public void setServicos(List<Servico> servicos) {
         this.servicos = servicos;
+    }
+
+    /**
+     * @return the valor
+     */
+    public double getValor() {
+        return valor;
+    }
+
+    /**
+     * @param valor the valor to set
+     */
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
+
+    /**
+     * @return the desconto
+     */
+    public int getDesconto() {
+        return desconto;
+    }
+
+    /**
+     * @param desconto the desconto to set
+     */
+    public void setDesconto(int desconto) {
+        this.desconto = desconto;
     }
 
     

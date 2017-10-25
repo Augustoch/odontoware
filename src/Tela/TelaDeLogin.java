@@ -58,6 +58,12 @@ public class TelaDeLogin extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tela de Login");
 
+        jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordField1KeyPressed(evt);
+            }
+        });
+
         jLabel1.setText("Login");
 
         jLabel2.setText("Senha");
@@ -124,6 +130,11 @@ public class TelaDeLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        captaUsuarioSenha();
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+     
+    private void captaUsuarioSenha(){
         Usuario usuario = Usuario.devolveUsuario();
         usuario.setLogin(jTextField1.getText());
         List Usuarios;
@@ -133,8 +144,12 @@ public class TelaDeLogin extends javax.swing.JFrame {
             Logger.getLogger(TelaDeLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
         validar(usuario.getLogin(), usuario.getSenha());
-
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }
+    
+    private void jPasswordField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyPressed
+        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER)
+            captaUsuarioSenha();
+    }//GEN-LAST:event_jPasswordField1KeyPressed
     private boolean validar(String login, String senha) {
         //abre sessão
         SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();

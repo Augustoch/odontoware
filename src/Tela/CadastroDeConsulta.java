@@ -10,17 +10,15 @@ import Classes.Paciente;
 import Classes.Servico;
 import Classes.Usuario;
 import Dao.ServicoDao;
-import com.itextpdf.text.log.SysoLogger;
-import com.itextpdf.tool.xml.html.Break;
-import java.text.SimpleDateFormat;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import javafx.util.converter.LocalDateStringConverter;
-import javafx.util.converter.LocalDateTimeStringConverter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import org.hibernate.Criteria;
@@ -38,6 +36,11 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     DefaultListModel model;
     List<Paciente> results;
     int linha;
+    List<Servico> servicos;
+    List<Servico> servicosP = new ArrayList<>();
+    double valorFinalPreco = 0;
+    DefaultListModel dlmAdicionar = new DefaultListModel();
+    BigDecimal bd;
 
     /**
      * Creates new form NovoJFrame
@@ -49,7 +52,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         lista.setVisible(false);
         usuariologado.setText(TelaDeLogin.usuario);
         setVisible(true);
-        
+
         model = new DefaultListModel();
     }
 
@@ -151,17 +154,19 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         servicosExistentes = new javax.swing.JList<>();
         jLabel28 = new javax.swing.JLabel();
         jScrollPane10 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        servicosPrestados = new javax.swing.JList<>();
         jLabel29 = new javax.swing.JLabel();
         addServico = new javax.swing.JButton();
         removerServico = new javax.swing.JButton();
         descconto = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
-        valorFinal = new javax.swing.JTextField();
         jLabel31 = new javax.swing.JLabel();
         btnSalvar4 = new javax.swing.JButton();
         btnImprimir4 = new javax.swing.JButton();
         btnCancelar4 = new javax.swing.JButton();
+        valorFinalw = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        valorFinal = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Consulta");
@@ -682,17 +687,28 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
 
         jtpConsulta.addTab("Odontograma", jPanel4);
 
+        servicosExistentes.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jScrollPane9.setViewportView(servicosExistentes);
 
         jLabel28.setText("Serviços");
 
-        jScrollPane10.setViewportView(jList1);
+        jScrollPane10.setViewportView(servicosPrestados);
 
         jLabel29.setText("Serviços Prestados");
 
         addServico.setText("Add >>");
+        addServico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addServicoActionPerformed(evt);
+            }
+        });
 
         removerServico.setText("<<Remover");
+        removerServico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removerServicoActionPerformed(evt);
+            }
+        });
 
         jLabel30.setText("Desconto");
 
@@ -708,6 +724,14 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         btnImprimir4.setText("Imprimir");
 
         btnCancelar4.setText("Cancelar");
+
+        valorFinalw.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        valorFinalw.setText("R$");
+
+        jLabel32.setText("%");
+
+        valorFinal.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        valorFinal.setText("0,00");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -730,24 +754,27 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
                             .addComponent(jLabel29)
                             .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(28, 28, 28))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                            .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel31)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(descconto)))
-                            .addGap(81, 81, 81))
-                        .addGroup(jPanel6Layout.createSequentialGroup()
-                            .addComponent(valorFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap()))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addComponent(btnSalvar4)
                         .addGap(18, 18, 18)
                         .addComponent(btnImprimir4)
                         .addGap(18, 18, 18)
                         .addComponent(btnCancelar4)
-                        .addGap(20, 20, 20))))
+                        .addGap(20, 20, 20))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(valorFinalw)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(valorFinal))
+                            .addComponent(jLabel31)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(descconto))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel32)))
+                        .addGap(24, 24, 24))))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -758,24 +785,28 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
                     .addComponent(jLabel29))
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                            .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.TRAILING)))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addComponent(addServico)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(removerServico)))
+                        .addComponent(removerServico))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane9)
+                            .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))))
                 .addGap(38, 38, 38)
                 .addComponent(jLabel30)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(descconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(descconto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel32))
                 .addGap(38, 38, 38)
                 .addComponent(jLabel31)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(valorFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(valorFinalw)
+                    .addComponent(valorFinal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar4)
                     .addComponent(btnImprimir4)
@@ -809,17 +840,17 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    private void carregar(){
-        DefaultListModel modelS  = new DefaultListModel();
+
+    private void carregar() {
+        DefaultListModel modelS = new DefaultListModel();
         servicosExistentes.setModel(modelS);
-        List<Servico> servicos = new ServicoDao().retornaTodosOsServicos();
+        servicos = new ServicoDao().retornaTodosOsServicos();
         for (Servico servico : servicos) {
-            modelS.addElement(servico.getNome()+" - R$: "+servico.getPreco());
+            modelS.addElement(servico.getNome() + " - R$: " + servico.getPreco());
         }
-        
+
     }
-    
+
     private void chkAnamnese01ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAnamnese01ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_chkAnamnese01ActionPerformed
@@ -876,15 +907,14 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         consulta.setHabitos(txtHabito.getText());
         consulta.setObs(txaObservacoes.getText());
 
-        
-         //LocalDate ld =  LocalDate.of(Integer.parseInt(ano.getText()),Integer.parseInt(mes.getText()) ,Integer.parseInt(dia.getText()));
-         DateTimeFormatter formato  = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate datawwww = LocalDate.of(Integer.parseInt(ano.getText()),Integer.parseInt(mes.getText()) ,Integer.parseInt(dia.getText()));
-                //parse(dia.getText()+"/"+mes.getText()+"/"+ano.getText(), formato); 
-         
-         consulta.setDataDoUltAtendimento(datawwww);
-         consulta.setDataDaConsulta(LocalDate.now());
-         System.out.println(LocalDate.now());
+        //LocalDate ld =  LocalDate.of(Integer.parseInt(ano.getText()),Integer.parseInt(mes.getText()) ,Integer.parseInt(dia.getText()));
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate datawwww = LocalDate.of(Integer.parseInt(ano.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(dia.getText()));
+        //parse(dia.getText()+"/"+mes.getText()+"/"+ano.getText(), formato); 
+
+        consulta.setDataDoUltAtendimento(datawwww);
+        consulta.setDataDaConsulta(LocalDate.now());
+        System.out.println(LocalDate.now());
         consulta.setXpNegAtendAnterior(txaExperiencia.getText());
         consulta.setUsaHigieneBucal(txaHigiene.getText());
         consulta.setTecidosMoles(txaTecidos.getText());
@@ -976,6 +1006,79 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         btnSalvarActionPerformed(evt);
     }//GEN-LAST:event_btnSalvar4ActionPerformed
 
+    private void addServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addServicoActionPerformed
+        dlmAdicionar.removeAllElements();
+        valorFinalPreco = 0;
+        int in = servicosExistentes.getSelectedIndex();
+
+        for (Servico sw : servicos) {
+            if (servicosExistentes.getSelectedValue().contains(sw.getNome())) {
+                servicosP.add(sw);
+
+            }
+        }
+        for (Servico s : servicosP) {
+            dlmAdicionar.addElement(s.getNome());
+
+            valorFinalPreco += s.getPreco();
+        }
+        servicosPrestados.setModel(dlmAdicionar);
+
+        bd = new BigDecimal(valorFinalPreco).setScale(3, RoundingMode.HALF_EVEN);
+        valorFinal.setText(Double.toString(bd.doubleValue()));
+
+
+    }//GEN-LAST:event_addServicoActionPerformed
+
+    private void removerServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removerServicoActionPerformed
+        try {
+            if (valorFinalPreco == 0) {
+                throw new Exception();
+            }
+            valorFinalPreco = 0;
+            int count = 0;
+            for (Iterator<Servico> i = servicosP.iterator(); i.hasNext();) {
+                Servico s = i.next();
+
+                
+
+                if (s.getNome() == servicosPrestados.getSelectedValue() && count == 0) {
+                    i.remove();
+                    count++;
+
+                }
+            }
+
+            //if(servicosPrestados.getSelectedValue())
+            /*
+            for (Servico s : servicosP) {
+                int count = 0;
+
+                if (s.getNome() == servicosPrestados.getSelectedValue() && count == 0) {
+                    System.out.println("cond1 ___ " + s.getNome() + " cond2_________" + servicosPrestados.getSelectedValue());
+                    servicosP.remove(s);
+                    count++;
+
+                }
+            }
+             */
+            dlmAdicionar.removeAllElements();
+            for (Servico s : servicosP) {
+                dlmAdicionar.addElement(s.getNome());
+                valorFinalPreco += s.getPreco();
+            }
+
+            bd = new BigDecimal(valorFinalPreco).setScale(3, RoundingMode.HALF_EVEN);
+            valorFinal.setText(Double.toString(bd.doubleValue()));
+            servicosPrestados.setModel(dlmAdicionar);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(null, "Selecione um item para retirar");
+        } catch (Exception ex) {
+            Logger.getLogger(CadastroDeConsulta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_removerServicoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addServico;
@@ -1028,13 +1131,13 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1059,6 +1162,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     private javax.swing.JTextField pesquisa;
     private javax.swing.JButton removerServico;
     private javax.swing.JList<String> servicosExistentes;
+    private javax.swing.JList<String> servicosPrestados;
     private javax.swing.JTextArea txaAnamnese01;
     private javax.swing.JTextArea txaAnamnese02;
     private javax.swing.JTextArea txaDescricao;
@@ -1077,6 +1181,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     private javax.swing.JTextField txtOe;
     private javax.swing.JTextField txtRg;
     private javax.swing.JLabel usuariologado;
-    private javax.swing.JTextField valorFinal;
+    private javax.swing.JLabel valorFinal;
+    private javax.swing.JLabel valorFinalw;
     // End of variables declaration//GEN-END:variables
 }
