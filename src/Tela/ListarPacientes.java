@@ -8,6 +8,7 @@ package Tela;
 import Util.Banco;
 import Classes.Paciente;
 import Classes.Usuario;
+import Dao.PacienteDao;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -20,7 +21,7 @@ import org.hibernate.*;
  * @author augusto
  */
 public class ListarPacientes extends javax.swing.JFrame {
-
+    int clique = 0;
     /**
      * Creates new form ListarPacientes
      */
@@ -41,26 +42,27 @@ public class ListarPacientes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        Editar = new javax.swing.JButton();
+        Excluir = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         usuariologado = new javax.swing.JLabel();
+        listarConsultas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Editar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Editar.setText("Editar");
+        Editar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                EditarActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Excluir");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        Excluir.setText("Excluir");
+        Excluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                ExcluirActionPerformed(evt);
             }
         });
 
@@ -86,6 +88,13 @@ public class ListarPacientes extends javax.swing.JFrame {
 
         usuariologado.setText("Usuario");
 
+        listarConsultas.setText("Listar Consultas");
+        listarConsultas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listarConsultasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -99,12 +108,14 @@ public class ListarPacientes extends javax.swing.JFrame {
                 .addComponent(jButton3)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(218, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(listarConsultas)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(Editar)
+                        .addGap(18, 18, 18)
+                        .addComponent(Excluir)
                         .addGap(57, 57, 57))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(usuariologado)
@@ -117,8 +128,10 @@ public class ListarPacientes extends javax.swing.JFrame {
                 .addComponent(usuariologado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(Excluir, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(Editar)
+                        .addComponent(listarConsultas)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(157, 157, 157)
@@ -129,7 +142,7 @@ public class ListarPacientes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
         try {
             Object i = jTable1.getValueAt(jTable1.getSelectedRow(), 0);
             int a = Integer.parseInt(i.toString());
@@ -139,9 +152,9 @@ public class ListarPacientes extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "Selecione um usuário");
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_EditarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void ExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExcluirActionPerformed
         String usuarioSelecionado = jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString();
         Paciente usuario = Paciente.devolveInstanciaDePaciente();
         Object i = jTable1.getValueAt(jTable1.getSelectedRow(), 0);
@@ -154,13 +167,7 @@ public class ListarPacientes extends javax.swing.JFrame {
             this.dispose();
         } else {
             if (botao == JOptionPane.YES_OPTION) {
-                System.out.println("DEu simm");
-                SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
-                Session s = sf.openSession();
-                Transaction tx = s.beginTransaction();
-                s.delete(usuario);
-                tx.commit();
-                s.close();
+                new PacienteDao().deletar(usuario);
 
             }
         }
@@ -170,11 +177,24 @@ public class ListarPacientes extends javax.swing.JFrame {
             //vai dar erro não pvt
         }
 
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_ExcluirActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void listarConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarConsultasActionPerformed
+        if(clique == 1){
+        int cod = Integer.parseInt((String)jTable1.getValueAt(jTable1.getSelectedRow(), 0));
+        new ListarConsultasPorPaciente(cod);
+        clique = 0;
+        
+        }else{
+            clique++;
+        }
+                
+        
+    }//GEN-LAST:event_listarConsultasActionPerformed
 
     private void carregar() throws Exception {
          List<Paciente> results; 
@@ -208,11 +228,12 @@ public class ListarPacientes extends javax.swing.JFrame {
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton Editar;
+    private javax.swing.JButton Excluir;
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton listarConsultas;
     private javax.swing.JLabel usuariologado;
     // End of variables declaration//GEN-END:variables
 }

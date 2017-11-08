@@ -6,9 +6,11 @@
 package Tela;
 
 import Classes.Consulta;
+import Classes.DataClasse;
 import Classes.Paciente;
 import Classes.Servico;
 import Classes.Usuario;
+import Dao.PacienteDao;
 import Dao.ServicoDao;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -243,6 +245,9 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
             }
         });
         pesquisa.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                pesquisaKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 pesquisaKeyReleased(evt);
             }
@@ -848,6 +853,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void carregar() {
+        desconto.setText("0");
         DefaultListModel modelS = new DefaultListModel();
         servicosExistentes.setModel(modelS);
         servicos = new ServicoDao().retornaTodosOsServicos();
@@ -916,12 +922,8 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         consulta.setDesconto(Integer.parseInt(desconto.getText()));
         consulta.setValor(Double.parseDouble(valorFinal.getText()));
 
-        //LocalDate ld =  LocalDate.of(Integer.parseInt(ano.getText()),Integer.parseInt(mes.getText()) ,Integer.parseInt(dia.getText()));
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate datawwww = LocalDate.of(Integer.parseInt(ano.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(dia.getText()));
-        //parse(dia.getText()+"/"+mes.getText()+"/"+ano.getText(), formato); 
-
-        consulta.setDataDoUltAtendimento(datawwww);
+        consulta.setDataDoUltAtendimento(
+                new DataClasse(Integer.parseInt(ano.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(dia.getText())).getData());
         consulta.setDataDaConsulta(LocalDate.now());
         System.out.println(LocalDate.now());
         consulta.setXpNegAtendAnterior(txaExperiencia.getText());
@@ -948,17 +950,13 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
 
     private void pesquisaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pesquisaKeyReleased
         model.removeAllElements();
-        SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
-        Session s = sf.openSession();
 
-        Criteria crit = s.createCriteria(Paciente.class);
         if (pesquisa.getText().isEmpty()) {
             lista.setVisible(false);
             return;
         }
-        crit.add(Restrictions.like("nome", pesquisa.getText() + "%"));
-        //crit.add(Restrictions.eq("nome",pesquisa.getText() ));
-        results = crit.list();
+
+        results = new PacienteDao().retornarLista(pesquisa.getText());
         //lista.setSize(350,results.size()*17);
         lista.setModel(model);
         for (Paciente result : results) {
@@ -972,8 +970,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
             lista.setVisible(false);
         }
 
-        s.close();
-
 
     }//GEN-LAST:event_pesquisaKeyReleased
 
@@ -982,7 +978,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
 
     }//GEN-LAST:event_pesquisaMouseClicked
 
-    private void listaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaMouseClicked
+    private void colocarDados() {
         //pega a linha selecionada e joga o objeto dentro do paciente
         linha = lista.getSelectedIndex();
         Paciente p = Paciente.devolveInstanciaDePaciente();
@@ -1000,6 +996,10 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         txtOe.setEditable(false);
         txtCpf.setEditable(false);
         txtFone.setEditable(false);
+    }
+
+    private void listaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listaMouseClicked
+        colocarDados();
 
     }//GEN-LAST:event_listaMouseClicked
 
@@ -1087,9 +1087,20 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     }//GEN-LAST:event_removerServicoActionPerformed
 
     private void descontoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_descontoKeyReleased
-        double vfp = Double.parseDouble(valorFinal.getText()) - Double.parseDouble(valorFinal.getText()) * (Double.parseDouble(desconto.getText()) / 100);
-        valorFinal.setText(Double.toString(vfp));
+        try {
+           
+            double vfp = Double.parseDouble(valorFinal.getText()) - Double.parseDouble(valorFinal.getText()) * (Double.parseDouble(desconto.getText()) / 100);
+            valorFinal.setText(Double.toString(vfp));
+        } catch (Exception e) {
+        }
+
     }//GEN-LAST:event_descontoKeyReleased
+
+    private void pesquisaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pesquisaKeyPressed
+        // if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER)
+        //       colocarDados();
+
+    }//GEN-LAST:event_pesquisaKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

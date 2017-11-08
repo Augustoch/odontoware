@@ -6,6 +6,7 @@
 package Tela;
 
 import Classes.Paciente;
+import Dao.PacienteDao;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -243,9 +244,7 @@ public class EditarPaciente extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
-        Session s = sf.openSession();
-        Transaction tx = s.beginTransaction();
+        
         Paciente p = Paciente.devolveInstanciaDePaciente();
         p.setId(Integer.parseInt(jTextField1.getText()));
         p.setNome(jTextField2.getText());
@@ -265,11 +264,10 @@ public class EditarPaciente extends javax.swing.JFrame {
         }
         p.setCpf(jTextField7.getText());
 
-        s.update(p);
+        new PacienteDao().atualizar(p);
         JOptionPane.showMessageDialog(rootPane, "Paciente Atualizado");
 
-        tx.commit();
-        s.close();
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

@@ -6,6 +6,7 @@
 package Tela;
 
 import Classes.Consulta;
+import Classes.DataClasse;
 import Classes.Paciente;
 import Classes.Servico;
 import Classes.Usuario;
@@ -13,7 +14,6 @@ import Dao.ServicoDao;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -30,13 +30,14 @@ import org.hibernate.criterion.Restrictions;
  * @author augusto
  */
 public class EditarConsulta extends javax.swing.JFrame {
+
     int codigo;
     DefaultListModel model;
     List<Paciente> results;
     int linha;
     List<Servico> servicos;
     List<Servico> servicosP = new ArrayList<>();
-    double valorFinalPreco = 0;
+    double valorFinalPreco = 1;
     DefaultListModel dlmAdicionar = new DefaultListModel();
     BigDecimal bd;
 
@@ -789,7 +790,7 @@ public class EditarConsulta extends javax.swing.JFrame {
         criteria.add(Restrictions.eq("cod", cod));
         List<Consulta> consultasLista = criteria.list();
         Consulta consultaRef = consultasLista.get(0);
-        
+
         txtNome.setText(consultaRef.getPaciente().getNome());
         txtEndereco.setText(consultaRef.getPaciente().getEndereco());
         txtRg.setText(consultaRef.getPaciente().getRg());
@@ -807,7 +808,7 @@ public class EditarConsulta extends javax.swing.JFrame {
         txaHigiene.setText(consultaRef.getUsaHigieneBucal());
         txaTecidos.setText(consultaRef.getTecidosMoles());
         txaDescricao.setText(consultaRef.getExameDental());
-        jTextArea1.setText(consultaRef.getPlanosTratamento() );
+        jTextArea1.setText(consultaRef.getPlanosTratamento());
         dia.setText(Integer.toString(consultaRef.getDataDaConsulta().getDayOfMonth()));
         mes.setText(Integer.toString(consultaRef.getDataDaConsulta().getMonthValue()));
         ano.setText(Integer.toString(consultaRef.getDataDaConsulta().getYear()));
@@ -823,12 +824,9 @@ public class EditarConsulta extends javax.swing.JFrame {
         txtOe.setEditable(false);
         txtCpf.setEditable(false);
         txtFone.setEditable(false);
-        
-        
-        
-        
 
     }
+
     private void carregar() {
         DefaultListModel modelS = new DefaultListModel();
         servicosExistentes.setModel(modelS);
@@ -836,8 +834,6 @@ public class EditarConsulta extends javax.swing.JFrame {
         for (Servico servico : servicos) {
             modelS.addElement(servico.getNome() + " - R$: " + servico.getPreco());
         }
-        
-        
 
     }
 
@@ -858,8 +854,7 @@ public class EditarConsulta extends javax.swing.JFrame {
         Criteria criteria = s.createCriteria(Consulta.class);
         criteria.add(Restrictions.eq("cod", codigo));
         List<Consulta> use = criteria.list();
-        
-        
+
         Consulta consulta = Consulta.devolveObjConsulta();
         consulta.setCod(codigo);
         consulta.setPaciente(use.get(0).getPaciente());
@@ -875,10 +870,9 @@ public class EditarConsulta extends javax.swing.JFrame {
         consulta.setHabitos(txtHabito.getText());
         consulta.setObs(txaObservacoes.getText());
 
-       
-        LocalDate dataAnterior = LocalDate.of(Integer.parseInt(ano.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(dia.getText()));
-       
-        consulta.setDataDoUltAtendimento(dataAnterior);
+        
+        consulta.setDataDoUltAtendimento(
+                new DataClasse(Integer.parseInt(ano.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(dia.getText())).getData());
         consulta.setDataDaConsulta(LocalDate.now());
         System.out.println(LocalDate.now());
         consulta.setXpNegAtendAnterior(txaExperiencia.getText());
@@ -980,7 +974,7 @@ public class EditarConsulta extends javax.swing.JFrame {
 
                 }
             }
-            */
+             */
             dlmAdicionar.removeAllElements();
             for (Servico s : servicosP) {
                 dlmAdicionar.addElement(s.getNome());
@@ -993,7 +987,7 @@ public class EditarConsulta extends javax.swing.JFrame {
         } catch (ArrayIndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(null, "Selecione um item para retirar");
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Erro");
+            JOptionPane.showMessageDialog(null, "Erro " + ex);
         }
     }//GEN-LAST:event_removerServicoActionPerformed
 

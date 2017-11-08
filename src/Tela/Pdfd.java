@@ -8,6 +8,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.html.table.Table;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -76,6 +77,8 @@ public class Pdfd extends javax.swing.JFrame {
             PdfWriter.getInstance(doc, os);
             doc.open();
             Paragraph p  = new Paragraph("It is Sal pvt\n Deu certo porra");
+            Table t = new Table();
+            
             doc.add(p);
             
             
