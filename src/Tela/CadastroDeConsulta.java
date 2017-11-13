@@ -528,6 +528,12 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
 
         btnImprimir2.setText("Imprimir");
 
+        ano.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                anoActionPerformed(evt);
+            }
+        });
+
         jLabel26.setText("/");
 
         jLabel27.setText("/");
@@ -923,7 +929,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         consulta.setValor(Double.parseDouble(valorFinal.getText()));
 
         consulta.setDataDoUltAtendimento(
-                new DataClasse(Integer.parseInt(ano.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(dia.getText())).getData());
+                new DataClasse(Integer.parseInt(dia.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(ano.getText())).getData());
         consulta.setDataDaConsulta(LocalDate.now());
         System.out.println(LocalDate.now());
         consulta.setXpNegAtendAnterior(txaExperiencia.getText());
@@ -1101,6 +1107,10 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         //       colocarDados();
 
     }//GEN-LAST:event_pesquisaKeyPressed
+
+    private void anoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_anoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

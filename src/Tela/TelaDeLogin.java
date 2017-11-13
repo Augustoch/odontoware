@@ -6,6 +6,7 @@
 package Tela;
 
 import Classes.Usuario;
+import Dao.UsuarioDao;
 import Util.Banco;
 import com.itextpdf.text.log.SysoLogger;
 import java.awt.FlowLayout;
@@ -17,6 +18,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -29,9 +31,11 @@ public class TelaDeLogin extends javax.swing.JFrame {
     /**
      * Creates new form TelaDeLogin
      */
-    public TelaDeLogin() {
+    public TelaDeLogin() throws Exception{
+        
         setLayout(new FlowLayout());
         initComponents();
+        persistirU();
         setVisible(true);
         this.setLocationRelativeTo(null);
         
@@ -128,7 +132,26 @@ public class TelaDeLogin extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    
+    private void persistirU()throws Exception {
+        if(new UsuarioDao().existe()){
+        
+        
+        
+        Usuario u = new Usuario().devolveUsuario();
+        
+        u.setLogin(JOptionPane.showInputDialog("Digite o Login Administrador"));
+        u.setSenha(JOptionPane.showInputDialog("Digite a senha"));
+        u.setTipo("Administrador");
+        
+        new UsuarioDao().salvar(u);
+        
+        }
+        
+        
+        
+    }
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         captaUsuarioSenha();
 
@@ -160,6 +183,7 @@ public class TelaDeLogin extends javax.swing.JFrame {
         criteria.add(Restrictions.eq("login", login));
 
         List<Usuario> lista = criteria.list();
+        System.out.println("Aqui carai"+lista.size());
         
         //se lista tiver vazia significa que não o usuario não foi achhado na banco
         if(lista.isEmpty()){ 
@@ -191,7 +215,7 @@ public class TelaDeLogin extends javax.swing.JFrame {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         new TelaDeLogin();
     }
 

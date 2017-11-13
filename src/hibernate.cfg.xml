@@ -41,13 +41,14 @@ Contributor(s):
 -->
 <hibernate-configuration>
   <session-factory>
-    <property name="hibernate.connection.driver_class">org.mariadb.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mariadb://192.168.0.104/odontoware:3306</property>
+    <property name="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</property>
+    <property name="hibernate.connection.url">jdbc:hsqldb:file:/home/augusto/NetBeansProjects/OdontoWare1.0/dist/banco/</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">123456</property>
     <property name="show_sql">true</property>
     <property name="hbm2ddl.auto">update</property>
     <property name="format_sql">true</property>
+    <property name="hibernate.dialect">org.hibernate.dialect.HSQLDialect</property>
     <mapping class="Classes.Usuario"/>
     <mapping class="Classes.Paciente"/>
     <mapping class="Classes.Servico"/>

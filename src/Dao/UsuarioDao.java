@@ -6,7 +6,10 @@
 package Dao;
 
 import Classes.Paciente;
+import Classes.Usuario;
 import java.util.List;
+import javax.persistence.Query;
+import javax.swing.JOptionPane;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,90 +20,87 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author augusto
  */
-public class PacienteDao {
-
-    public void salvar(Paciente paciente) {
+public class UsuarioDao {
+    public void salvar(Usuario usuario) {
         SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
         Session s = sf.openSession();
         Transaction tx = s.beginTransaction();
 
-        s.save(paciente);
+        s.save(usuario);
 
         
         tx.commit();
         s.close();
     }
 
-    public void deletar(Paciente paciente) {
+    public void deletar(Usuario usuario) {
         SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
         Session s = sf.openSession();
         Transaction tx = s.beginTransaction();
-        s.delete(paciente);
+        s.delete(usuario);
         
         tx.commit();
         s.close();
     }
 
-    public void atualizar(Paciente paciente) {
+    public void atualizar(Usuario usuario) {
         SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
         Session s = sf.openSession();
         Transaction tx = s.beginTransaction();
 
-        s.update(paciente);
+        s.update(usuario);
 
        
         tx.commit();
         s.close();
     }
-
-    public List<Paciente> retornarLista() {
+    
+    public List<Usuario> retornarLista() {
         SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
         Session s = sf.openSession();
         
-        Criteria crite = s.createCriteria(Paciente.class);
-        List<Paciente> pacientes = crite.list();
+        Criteria crite = s.createCriteria(Usuario.class);
+        List<Usuario> usuarios = crite.list();
         
         s.close();
-        return pacientes;
-    }
-
-    public List<Paciente> retornarLista(int id) {
-        SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
-        Session s = sf.openSession();
-
-        Criteria crite = s.createCriteria(Paciente.class);
-        crite.add(Restrictions.eq("id", id));
-        
-        s.close();
-        return crite.list();
+        return usuarios;
     }
     
-    public List<Paciente> retornarLista(String nome) {
+    public List<Usuario> retornarLista(String login) {
         SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
-        Session s = sf.openSession();
+        Session sa = sf.openSession();
 
-        Criteria crite = s.createCriteria(Paciente.class);
-        crite.add(Restrictions.like("nome", nome + "%"));
-        List<Paciente> pacientes = crite.list(); 
-        s.close();
-        return pacientes;
+        Criteria crite = sa.createCriteria(Usuario.class);
+        crite.add(Restrictions.eq("login", login));
         
+        List<Usuario> usuarios = crite.list();
+    
         
+        sa.close();
         
+        return usuarios;
     }
     
-    public Paciente paciente(int cod){
+    public boolean existe(){
         SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
         Session s = sf.openSession();
-
-        Criteria crite = s.createCriteria(Paciente.class);
-        crite.add(Restrictions.eq("id", cod));
         
-        Paciente p = (Paciente)crite.list().get(0);
+        Criteria crite = s.createCriteria(Classes.Usuario.class);
+        crite.add(Restrictions.eq("tipo","Administrador" ));
         
+        try{
+        if(crite.list().size()>0){    
         s.close();
-        return  p;
+            return false;
+        }
         
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"Erro"+e);
+        }
+        
+        return true;
+            
+            
     }
-
+    
 }
