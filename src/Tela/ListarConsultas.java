@@ -42,26 +42,27 @@ public class ListarConsultas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        editarConsulta = new javax.swing.JButton();
+        excluirConsulta = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         usuariologado = new javax.swing.JLabel();
+        imprimir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jButton1.setText("Editar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        editarConsulta.setText("Editar");
+        editarConsulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                editarConsultaActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Excluir");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        excluirConsulta.setText("Excluir");
+        excluirConsulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                excluirConsultaActionPerformed(evt);
             }
         });
 
@@ -87,42 +88,56 @@ public class ListarConsultas extends javax.swing.JFrame {
 
         usuariologado.setText("Usuario");
 
+        imprimir.setText("Imprimir");
+        imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imprimirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addComponent(jButton3)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 804, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 573, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(editarConsulta)
+                        .addGap(18, 18, 18)
+                        .addComponent(excluirConsulta)
+                        .addGap(45, 45, 45)))
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)
-                        .addGap(57, 57, 57))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(usuariologado)
-                        .addGap(34, 34, 34))))
+                        .addGap(34, 34, 34))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(imprimir)
+                        .addGap(92, 92, 92))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(usuariologado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(70, 70, 70)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(excluirConsulta, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(editarConsulta, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(157, 157, 157)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(imprimir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addGap(24, 24, 24))
         );
@@ -130,7 +145,7 @@ public class ListarConsultas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void editarConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarConsultaActionPerformed
         try {
             Object i = jTable1.getValueAt(jTable1.getSelectedRow(), 0);
             int a = Integer.parseInt(i.toString());
@@ -139,16 +154,16 @@ public class ListarConsultas extends javax.swing.JFrame {
             
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Selecione um usuário");
+            JOptionPane.showMessageDialog(rootPane, "Selecione um usuário\n"+e);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_editarConsultaActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void excluirConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_excluirConsultaActionPerformed
         String usuarioSelecionado = jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString();
         Consulta usuario = Consulta.devolveObjConsulta();
         Object i = jTable1.getValueAt(jTable1.getSelectedRow(), 0);
         int a = Integer.parseInt(i.toString());
-        usuario.setCod(a);
+        usuario.setId(a);
         int botao = JOptionPane.YES_NO_OPTION;
         JOptionPane.showConfirmDialog(null, "Deseja Realmente apagar " + usuarioSelecionado, "Cuidado", botao);
         if (usuarioSelecionado.equals("admin")) {
@@ -171,7 +186,7 @@ public class ListarConsultas extends javax.swing.JFrame {
         } catch (Exception e) {
             //vai dar erro não pvt
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_excluirConsultaActionPerformed
     private void carregar() throws Exception {
          List<Consulta> results; 
         Consulta consulta = Consulta.devolveObjConsulta();
@@ -189,7 +204,7 @@ public class ListarConsultas extends javax.swing.JFrame {
 
             consulta = results.get(i);
 
-            lista.add(new String[]{"" + consulta.getCod()+ "", consulta.getPaciente().getNome(),""+consulta.getDataDoUltAtendimento()+ ""});
+            lista.add(new String[]{"" + consulta.getId()+ "", consulta.getPaciente().getNome(),""+consulta.getDataDoUltAtendimento()+ ""});
         }
 
         String[] colunas = {"Id", "Nome do Paciente", "Data"};
@@ -203,6 +218,13 @@ public class ListarConsultas extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void imprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imprimirActionPerformed
+         Object i = jTable1.getValueAt(jTable1.getSelectedRow(), 0);
+         int a = Integer.parseInt(i.toString());
+            
+         //new GeradorDePdf().gerar(a);
+    }//GEN-LAST:event_imprimirActionPerformed
+
     /*
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -214,8 +236,9 @@ public class ListarConsultas extends javax.swing.JFrame {
     */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton editarConsulta;
+    private javax.swing.JButton excluirConsulta;
+    private javax.swing.JButton imprimir;
     private javax.swing.JButton jButton3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

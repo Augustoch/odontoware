@@ -15,12 +15,9 @@ import Dao.ServicoDao;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import org.hibernate.Criteria;
@@ -84,7 +81,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtFone = new javax.swing.JTextField();
         btnSalvar = new javax.swing.JButton();
-        btnImprimir = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         pesquisa = new javax.swing.JTextField();
         jLabel25 = new javax.swing.JLabel();
@@ -117,7 +113,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         txaObservacoes = new javax.swing.JTextArea();
         jLabel13 = new javax.swing.JLabel();
         btnSalvar1 = new javax.swing.JButton();
-        btnImprimir1 = new javax.swing.JButton();
         btnCancelar1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
@@ -134,7 +129,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         btnCancelar2 = new javax.swing.JButton();
         btnSalvar2 = new javax.swing.JButton();
-        btnImprimir2 = new javax.swing.JButton();
         dia = new javax.swing.JTextField();
         mes = new javax.swing.JTextField();
         ano = new javax.swing.JTextField();
@@ -149,7 +143,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         jScrollPane8 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         btnSalvar3 = new javax.swing.JButton();
-        btnImprimir3 = new javax.swing.JButton();
         btnCancelar3 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
@@ -164,7 +157,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         btnSalvar4 = new javax.swing.JButton();
-        btnImprimir4 = new javax.swing.JButton();
         btnCancelar4 = new javax.swing.JButton();
         valorFinalw = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
@@ -231,9 +223,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 300, -1, -1));
-
-        btnImprimir.setText("Imprimir");
-        jPanel1.add(btnImprimir, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 300, -1, -1));
 
         btnCancelar.setText("Cancelar");
         jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 300, -1, -1));
@@ -358,8 +347,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
             }
         });
 
-        btnImprimir1.setText("Imprimir");
-
         btnCancelar1.setText("Cancelar");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -427,9 +414,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSalvar1)
-                .addGap(18, 18, 18)
-                .addComponent(btnImprimir1)
-                .addGap(18, 18, 18)
+                .addGap(127, 127, 127)
                 .addComponent(btnCancelar1)
                 .addContainerGap())
         );
@@ -481,7 +466,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar1)
-                    .addComponent(btnImprimir1)
                     .addComponent(btnCancelar1))
                 .addContainerGap())
         );
@@ -526,8 +510,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
             }
         });
 
-        btnImprimir2.setText("Imprimir");
-
         ano.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 anoActionPerformed(evt);
@@ -551,9 +533,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnSalvar2)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnImprimir2)
-                        .addGap(18, 18, 18)
+                        .addGap(127, 127, 127)
                         .addComponent(btnCancelar2))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -612,7 +592,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar2)
-                    .addComponent(btnImprimir2)
                     .addComponent(btnCancelar2))
                 .addContainerGap())
         );
@@ -637,8 +616,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
                 btnSalvar3ActionPerformed(evt);
             }
         });
-
-        btnImprimir3.setText("Imprimir");
 
         btnCancelar3.setText("Cancelar");
 
@@ -668,9 +645,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSalvar3)
-                .addGap(18, 18, 18)
-                .addComponent(btnImprimir3)
-                .addGap(18, 18, 18)
+                .addGap(127, 127, 127)
                 .addComponent(btnCancelar3)
                 .addContainerGap())
         );
@@ -691,7 +666,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 317, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar3)
-                    .addComponent(btnImprimir3)
                     .addComponent(btnCancelar3))
                 .addContainerGap())
         );
@@ -738,8 +712,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
             }
         });
 
-        btnImprimir4.setText("Imprimir");
-
         btnCancelar4.setText("Cancelar");
 
         valorFinalw.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
@@ -748,7 +720,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         jLabel32.setText("%");
 
         valorFinal.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        valorFinal.setText("0,00");
+        valorFinal.setText("0.00");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -773,9 +745,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
                         .addGap(28, 28, 28))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addComponent(btnSalvar4)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnImprimir4)
-                        .addGap(18, 18, 18)
+                        .addGap(127, 127, 127)
                         .addComponent(btnCancelar4)
                         .addGap(20, 20, 20))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
@@ -826,7 +796,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar4)
-                    .addComponent(btnImprimir4)
                     .addComponent(btnCancelar4))
                 .addContainerGap())
         );
@@ -912,7 +881,12 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         List<Usuario> use = criteria.list();
 
         Consulta consulta = Consulta.devolveObjConsulta();
+        try{
         consulta.setPaciente(results.get(linha));
+        }catch(NullPointerException exception){
+            JOptionPane.showMessageDialog(null, "Nenhum paciente adicionado");
+            return;
+        }
         consulta.setDentista(use.get(0));
         consulta.setQueixa(txaAnamnese01.getText());
         consulta.setDoenca(chkAnamnese01.isSelected());
@@ -926,10 +900,16 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         consulta.setObs(txaObservacoes.getText());
         consulta.setServicos(servicosP);
         consulta.setDesconto(Integer.parseInt(desconto.getText()));
+        
         consulta.setValor(Double.parseDouble(valorFinal.getText()));
-
+        try{
         consulta.setDataDoUltAtendimento(
+        
                 new DataClasse(Integer.parseInt(dia.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(ano.getText())).getData());
+        }catch(NumberFormatException nfe){
+            JOptionPane.showMessageDialog(null, "Campo data de ultimo atendimento está vazio");
+            return;
+        }
         consulta.setDataDaConsulta(LocalDate.now());
         System.out.println(LocalDate.now());
         consulta.setXpNegAtendAnterior(txaExperiencia.getText());
@@ -938,14 +918,17 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         consulta.setIngeriAlimentosbebidasRefeicoes(chkInquerito01.isSelected());
         consulta.setExameDental(txaDescricao.getText());
         consulta.setPlanosTratamento(jTextArea1.getText());
-
-        s.save(consulta);
+        
+        
+        s.merge(consulta);
         tx.commit();
         s.close();
         JOptionPane.showMessageDialog(null, "Consulta Salva");
 
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    
+    
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
 
     }//GEN-LAST:event_txtNomeActionPerformed
@@ -1121,11 +1104,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelar2;
     private javax.swing.JButton btnCancelar3;
     private javax.swing.JButton btnCancelar4;
-    private javax.swing.JButton btnImprimir;
-    private javax.swing.JButton btnImprimir1;
-    private javax.swing.JButton btnImprimir2;
-    private javax.swing.JButton btnImprimir3;
-    private javax.swing.JButton btnImprimir4;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnSalvar1;
     private javax.swing.JButton btnSalvar2;

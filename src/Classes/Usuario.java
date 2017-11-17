@@ -17,7 +17,7 @@ import sun.security.util.Password;
  * @author augusto
  */
 @Entity
-public class Usuario {
+public class Usuario implements Serializable {
 
     @Id
     @GeneratedValue

@@ -136,7 +136,11 @@ public class MenuAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        try{
         new TelaDeLogin();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 

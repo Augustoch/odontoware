@@ -1,2 +1,4 @@
 /*C3*/SET SCHEMA PUBLIC
-DISCONNECT
+alter table Consulta add column id integer not null
+alter table Consulta_Servico add column Consulta_id integer not null
+alter table Consulta_Servico add constraint FK_kkpv7m3axsn74gkh450wsxy79 foreign key (Consulta_id) references Consulta

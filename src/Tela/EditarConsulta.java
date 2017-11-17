@@ -642,6 +642,12 @@ public class EditarConsulta extends javax.swing.JFrame {
             }
         });
 
+        desconto.setText("0");
+        desconto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                descontoActionPerformed(evt);
+            }
+        });
         desconto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 descontoKeyReleased(evt);
@@ -787,7 +793,7 @@ public class EditarConsulta extends javax.swing.JFrame {
         Transaction tx = s.beginTransaction();
 
         Criteria criteria = s.createCriteria(Consulta.class);
-        criteria.add(Restrictions.eq("cod", cod));
+        criteria.add(Restrictions.eq("id", cod));
         List<Consulta> consultasLista = criteria.list();
         Consulta consultaRef = consultasLista.get(0);
 
@@ -852,11 +858,11 @@ public class EditarConsulta extends javax.swing.JFrame {
 
         //vou no banco pego um usuario igual
         Criteria criteria = s.createCriteria(Consulta.class);
-        criteria.add(Restrictions.eq("cod", codigo));
+        criteria.add(Restrictions.eq("id", codigo));
         List<Consulta> use = criteria.list();
 
         Consulta consulta = Consulta.devolveObjConsulta();
-        consulta.setCod(codigo);
+        consulta.setId(codigo);
         consulta.setPaciente(use.get(0).getPaciente());
         consulta.setDentista(use.get(0).getDentista());
         consulta.setQueixa(txaAnamnese01.getText());
@@ -872,7 +878,7 @@ public class EditarConsulta extends javax.swing.JFrame {
 
         
         consulta.setDataDoUltAtendimento(
-                new DataClasse(Integer.parseInt(ano.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(dia.getText())).getData());
+                new DataClasse(Integer.parseInt(dia.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(ano.getText())).getData());
         consulta.setDataDaConsulta(LocalDate.now());
         System.out.println(LocalDate.now());
         consulta.setXpNegAtendAnterior(txaExperiencia.getText());
@@ -999,6 +1005,10 @@ public class EditarConsulta extends javax.swing.JFrame {
     private void btnSalvar4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvar4ActionPerformed
         btnSalvarActionPerformed(evt);
     }//GEN-LAST:event_btnSalvar4ActionPerformed
+
+    private void descontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descontoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_descontoActionPerformed
 
     /*
     public static void main(String args[]) {

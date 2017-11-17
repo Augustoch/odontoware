@@ -6,6 +6,7 @@
 package Classes;
 
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
 import javax.persistence.*;
@@ -15,7 +16,7 @@ import javax.persistence.*;
  * @author augusto
  */
 @Entity
-public class Paciente {
+public class Paciente implements Serializable {
 
     @GeneratedValue
     @Id

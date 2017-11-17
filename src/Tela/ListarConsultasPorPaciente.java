@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -37,11 +38,17 @@ public class ListarConsultasPorPaciente extends javax.swing.JFrame {
         List<String[]> listaConsultaStrings = new ArrayList<String[]>();
         List<Consulta> consultas = new ConsultaDao().retornarLista(new PacienteDao().paciente(cod));
         System.out.println("----------------------------------------------" + consultas.size());
+        try{
         nomeDoPaciente.setText(consultas.get(0).getPaciente().getNome());
+        }catch(IndexOutOfBoundsException e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+            
+        
         consultas.forEach((consulta) -> {
             
             listaConsultaStrings.add(new String[]{
-                consulta.getCod() + "",
+                consulta.getId() + "",
                 consulta.getDataDaConsulta().getDayOfMonth()+"/"+consulta.getDataDaConsulta().getMonthValue()+"/"+consulta.getDataDaConsulta().getYear(),
                 consulta.getDentista().getLogin(),
                 consulta.getValor()+""

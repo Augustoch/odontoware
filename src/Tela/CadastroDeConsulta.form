@@ -216,16 +216,6 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JButton" name="btnImprimir">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Imprimir"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="640" y="300" width="-1" height="-1"/>
-                </Constraint>
-              </Constraints>
-            </Component>
             <Component class="javax.swing.JButton" name="btnCancelar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cancelar"/>
@@ -413,9 +403,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnSalvar1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnImprimir1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="127" max="-2" attributes="0"/>
                       <Component id="btnCancelar1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -478,7 +466,6 @@
                       <EmptySpace pref="28" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnSalvar1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnImprimir1" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnCancelar1" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -624,11 +611,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvar1ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btnImprimir1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Imprimir"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JButton" name="btnCancelar1">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cancelar"/>
@@ -657,9 +639,7 @@
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               <Component id="btnSalvar2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnImprimir2" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="127" max="-2" attributes="0"/>
                               <Component id="btnCancelar2" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
@@ -730,7 +710,6 @@
                       <EmptySpace pref="41" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnSalvar2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnImprimir2" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnCancelar2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -830,11 +809,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvar2ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btnImprimir2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Imprimir"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JTextField" name="dia">
             </Component>
             <Component class="javax.swing.JTextField" name="mes">
@@ -898,9 +872,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnSalvar3" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnImprimir3" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="127" max="-2" attributes="0"/>
                       <Component id="btnCancelar3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -925,7 +897,6 @@
                       <EmptySpace pref="317" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnSalvar3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnImprimir3" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnCancelar3" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -984,11 +955,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvar3ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btnImprimir3">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Imprimir"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JButton" name="btnCancelar3">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cancelar"/>
@@ -1032,9 +998,7 @@
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="btnSalvar4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnImprimir4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="127" max="-2" attributes="0"/>
                               <Component id="btnCancelar4" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                           </Group>
@@ -1101,7 +1065,6 @@
                       <EmptySpace pref="71" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnSalvar4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnImprimir4" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnCancelar4" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -1200,11 +1163,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvar4ActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btnImprimir4">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Imprimir"/>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JButton" name="btnCancelar4">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cancelar"/>
@@ -1228,7 +1186,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Dialog" size="36" style="1"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="0,00"/>
+                <Property name="text" type="java.lang.String" value="0.00"/>
               </Properties>
             </Component>
           </SubComponents>

@@ -82,6 +82,7 @@ public class UsuarioDao {
     }
     
     public boolean existe(){
+        
         SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
         Session s = sf.openSession();
         

@@ -5,10 +5,6 @@
  */
 package Util;
 
-import Classes.Consulta;
-import Classes.Paciente;
-import Classes.Servico;
-import Classes.Usuario;
 import javax.swing.JOptionPane;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.SessionFactory;
@@ -20,11 +16,13 @@ import org.hibernate.SessionFactory;
  * @author augusto
  */
 public class NewHibernateUtil {
-
+     
     private static final SessionFactory sessionFactory;
-    
+        
     static {
+        
         try {
+             
             // Create the SessionFactory from standard (hibernate.cfg.xml) 
             // config file.
             AnnotationConfiguration ac =  new AnnotationConfiguration();
@@ -33,7 +31,7 @@ public class NewHibernateUtil {
             ac.addAnnotatedClass(Classes.Servico.class);
             ac.addAnnotatedClass(Classes.Usuario.class);
             ac.setProperty("hibernate.connection.driver_class", "org.hsqldb.jdbcDriver");
-            ac.setProperty("hibernate.connection.url", "jdbc:hsqldb:file:~/NetBeansProjects/OdontoWare1.0/dist/banco/odontoware2");
+            ac.setProperty("hibernate.connection.url", "jdbc:hsqldb:file:/home/augusto/Área de Trabalho/"/*depois descomente essa buceta()*/);
             ac.setProperty("hibernate.connection.username", "root");
             ac.setProperty("hibernate.connection.password", "123456");
             ac.setProperty("show_sql", "true");
@@ -45,15 +43,21 @@ public class NewHibernateUtil {
             
             
             
-        } catch (Throwable ex) {
+        } catch (Exception ex) {
             // Log the exception. 
             System.err.println("Initial SessionFactory creation failed." + ex);
-            JOptionPane.showMessageDialog(null, ex);
+            JOptionPane.showMessageDialog(null, "Este erro "+ex);
             throw new ExceptionInInitializerError(ex);
         }
     }
     
+    public static String c (){
+        
+        return new DirManager().selecionar();
+    }
+    
     public static SessionFactory getSessionFactory() {
+       
         return sessionFactory;
     }
 }

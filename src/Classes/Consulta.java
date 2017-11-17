@@ -5,35 +5,35 @@
  */
 package Classes;
 
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import org.hibernate.annotations.ManyToAny;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
  * @author augusto
  */
 @Entity
-public class Consulta {
-    @GeneratedValue @Id
-    private int cod;    
+public class Consulta implements Serializable {
+    
+    @GeneratedValue
+    @Id
+    
+    private int id;    
     @ManyToOne
     private Paciente paciente;
     @ManyToOne
     private Usuario dentista;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Servico> servicos;
     private LocalDate dataDaConsulta;
     private LocalDate dataDoUltAtendimento;
@@ -62,17 +62,17 @@ public class Consulta {
     }
 
     /**
-     * @return the cod
+     * @return the id
      */
-    public int getCod() {
-        return cod;
+    public int getId() {
+        return id;
     }
 
     /**
-     * @param cod the cod to set
+     * @param id the id to set
      */
-    public void setCod(int cod) {
-        this.cod = cod;
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**

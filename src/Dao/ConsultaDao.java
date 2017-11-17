@@ -19,6 +19,23 @@ import org.hibernate.criterion.Restrictions;
  * @author augusto
  */
 public class ConsultaDao {
+    
+    public Consulta consulta(int i){
+        SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
+        Session s = sf.openSession();
+        
+        String jpql = "select c from Consulta c where c.id = "+i;
+        
+        Query q = s.createQuery(jpql);
+        
+        List<Consulta> consultas = q.list();
+        
+        Consulta consulta = consultas.get(0);
+        
+        s.close();
+        
+        return consulta;
+    }
 
     public List<Consulta> retornarLista(Paciente cod) {
         SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
