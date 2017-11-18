@@ -7,6 +7,7 @@ package Tela;
 
 import Classes.Usuario;
 import Util.Banco;
+import java.awt.GridBagLayout;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import org.hibernate.Session;
@@ -25,7 +26,9 @@ public class CadastrarUsuario extends javax.swing.JFrame  {
      */
     public CadastrarUsuario(){
         initComponents();
+        setSize(1280, 720);
         this.setLocationRelativeTo(null);
+       
         usuariologado.setText(TelaDeLogin.usuario);
         setVisible(true);
         jComboBox1.addItem(" ");

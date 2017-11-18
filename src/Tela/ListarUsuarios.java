@@ -7,6 +7,7 @@ package Tela;
 
 import Classes.Usuario;
 import com.sun.java.swing.plaf.windows.resources.windows;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
@@ -30,7 +31,9 @@ public class ListarUsuarios extends javax.swing.JFrame {
         initComponents();
         usuariologado.setText(TelaDeLogin.usuario);
         carregar();
+        setSize(1280, 720);
         this.setLocationRelativeTo(null);
+       
         setVisible(true);
     }
 

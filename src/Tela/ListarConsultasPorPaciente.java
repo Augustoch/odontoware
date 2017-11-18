@@ -9,6 +9,8 @@ import Classes.Consulta;
 import Classes.Paciente;
 import Dao.ConsultaDao;
 import Dao.PacienteDao;
+import Util.GeradorDePdf;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -29,37 +31,47 @@ public class ListarConsultasPorPaciente extends javax.swing.JFrame {
 
         initComponents();
         carregar(cod);
+        setSize(1280, 720);
+        this.setLocationRelativeTo(null);
+
         setVisible(true);
     }
 
     private void carregar(Integer cod) {
-        
-        
+
         List<String[]> listaConsultaStrings = new ArrayList<String[]>();
         List<Consulta> consultas = new ConsultaDao().retornarLista(new PacienteDao().paciente(cod));
         System.out.println("----------------------------------------------" + consultas.size());
-        try{
-        nomeDoPaciente.setText(consultas.get(0).getPaciente().getNome());
-        }catch(IndexOutOfBoundsException e){
+        try {
+            nomeDoPaciente.setText(consultas.get(0).getPaciente().getNome());
+        } catch (IndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(null, e);
         }
-            
-        
+
         consultas.forEach((consulta) -> {
-            
+
             listaConsultaStrings.add(new String[]{
                 consulta.getId() + "",
-                consulta.getDataDaConsulta().getDayOfMonth()+"/"+consulta.getDataDaConsulta().getMonthValue()+"/"+consulta.getDataDaConsulta().getYear(),
+                consulta.getDataDaConsulta().getDayOfMonth() + "/" + consulta.getDataDaConsulta().getMonthValue() + "/" + consulta.getDataDaConsulta().getYear(),
                 consulta.getDentista().getLogin(),
-                consulta.getValor()+""
+                consulta.getValor() + ""
             });
         });
 
-        
-
         String[] colunas = {"Código", "Data da Consulta", "Dentista", "Valor"};
-        DefaultTableModel model = new DefaultTableModel(listaConsultaStrings.toArray(new String[listaConsultaStrings.size()][]), colunas);
-        tabelaDeConsultas.setModel(model);
+        DefaultTableModel dtm = new DefaultTableModel(listaConsultaStrings.toArray(new String[listaConsultaStrings.size()][]), colunas) {
+            @Override
+            public boolean isCellEditable(int row, int col)
+                {
+        
+            return false;
+                }
+      }; 
+        
+        
+        //DefaultTableModel model = new DefaultTableModel(listaConsultaStrings.toArray(new String[listaConsultaStrings.size()][]), colunas);
+        tabelaDeConsultas.setModel(dtm);
+        
 
     }
 
@@ -77,6 +89,7 @@ public class ListarConsultasPorPaciente extends javax.swing.JFrame {
         tabelaDeConsultas = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         nomeDoPaciente = new javax.swing.JLabel();
+        imprimir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -101,30 +114,41 @@ public class ListarConsultasPorPaciente extends javax.swing.JFrame {
         jLabel1.setText("Paciente");
 
         nomeDoPaciente.setFont(new java.awt.Font("Dialog", 3, 24)); // NOI18N
-        nomeDoPaciente.setText(" ");
+        nomeDoPaciente.setText("Nome do Paciente");
+
+        imprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/print.png"))); // NOI18N
+        imprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imprimirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(116, 116, 116)
+                .addGap(172, 172, 172)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nomeDoPaciente)
                     .addComponent(jLabel1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(174, Short.MAX_VALUE))
+                    .addComponent(nomeDoPaciente)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(246, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(55, 55, 55)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(nomeDoPaciente)
-                .addGap(28, 28, 28)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(imprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -132,29 +156,41 @@ public class ListarConsultasPorPaciente extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 2, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 3, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 13, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 14, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void tabelaDeConsultasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaDeConsultasMouseClicked
-        
-        int cod = Integer.parseInt((String)tabelaDeConsultas.getValueAt(tabelaDeConsultas.getSelectedRow(), 0));
-        new EditarConsulta(cod);
+        if (evt.getClickCount() == 2) {
+            int cod = Integer.parseInt((String) tabelaDeConsultas.getValueAt(tabelaDeConsultas.getSelectedRow(), 0));
+            new EditarConsulta(cod);
+        }
     }//GEN-LAST:event_tabelaDeConsultasMouseClicked
+
+    private void imprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imprimirActionPerformed
+        Object i = tabelaDeConsultas.getValueAt(tabelaDeConsultas.getSelectedRow(), 0);
+        int a = Integer.parseInt(i.toString());
+        try {
+            new GeradorDePdf().gerar(a);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Selecione uma Consulta\n" + e);
+        }
+    }//GEN-LAST:event_imprimirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton imprimir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;

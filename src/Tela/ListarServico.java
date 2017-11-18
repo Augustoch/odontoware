@@ -8,6 +8,7 @@ package Tela;
 import Classes.Paciente;
 import Classes.Servico;
 import Classes.Usuario;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -28,7 +29,9 @@ public class ListarServico extends javax.swing.JFrame {
      */
     public ListarServico() {
         initComponents();
+        setSize(1280, 720);
         this.setLocationRelativeTo(null);
+        
         usuariologado.setText(TelaDeLogin.usuario);
         setVisible(true);
         carregar();

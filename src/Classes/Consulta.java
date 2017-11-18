@@ -34,6 +34,7 @@ public class Consulta implements Serializable {
     @ManyToOne
     private Usuario dentista;
     @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Servico> servicos;
     private LocalDate dataDaConsulta;
     private LocalDate dataDoUltAtendimento;

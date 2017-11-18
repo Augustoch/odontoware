@@ -7,6 +7,8 @@ package Tela;
 
 import Classes.Consulta;
 import Classes.Paciente;
+import Util.GeradorDePdf;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -29,7 +31,9 @@ public class ListarConsultas extends javax.swing.JFrame {
         initComponents();
         carregar();
         usuariologado.setText(TelaDeLogin.usuario);
+       setSize(1280, 720);
         this.setLocationRelativeTo(null);
+        
         setVisible(true);
     }
 
@@ -88,7 +92,7 @@ public class ListarConsultas extends javax.swing.JFrame {
 
         usuariologado.setText("Usuario");
 
-        imprimir.setText("Imprimir");
+        imprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/print.png"))); // NOI18N
         imprimir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 imprimirActionPerformed(evt);
@@ -137,7 +141,7 @@ public class ListarConsultas extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(imprimir)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addGap(24, 24, 24))
         );
@@ -221,8 +225,11 @@ public class ListarConsultas extends javax.swing.JFrame {
     private void imprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imprimirActionPerformed
          Object i = jTable1.getValueAt(jTable1.getSelectedRow(), 0);
          int a = Integer.parseInt(i.toString());
-            
-         //new GeradorDePdf().gerar(a);
+         try{   
+         new GeradorDePdf().gerar(a);
+         }catch(Exception e){
+             JOptionPane.showMessageDialog(null, "Selecione uma Consulta\n"+e);
+         }
     }//GEN-LAST:event_imprimirActionPerformed
 
     /*

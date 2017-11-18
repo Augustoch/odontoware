@@ -11,6 +11,7 @@ import Classes.Paciente;
 import Classes.Servico;
 import Classes.Usuario;
 import Dao.ServicoDao;
+import java.awt.GridBagLayout;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -49,6 +50,9 @@ public class EditarConsulta extends javax.swing.JFrame {
         codigo = cod;
         iniciar(cod);
         carregar();
+        setSize(1280, 720);
+        this.setLocationRelativeTo(null);
+        
         setVisible(true);
     }
 

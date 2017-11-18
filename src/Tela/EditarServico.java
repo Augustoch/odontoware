@@ -6,6 +6,7 @@
 package Tela;
 
 import Classes.Servico;
+import java.awt.GridBagLayout;
 import javax.swing.JOptionPane;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -29,7 +30,9 @@ public class EditarServico extends javax.swing.JFrame {
         jTextArea1.setText(descricao);
         usuariologado.setText(TelaDeLogin.usuario);
         jTextField3.setEditable(false);
+        setSize(1280, 720);
         this.setLocationRelativeTo(null);
+        
         setVisible(true);
         
     }

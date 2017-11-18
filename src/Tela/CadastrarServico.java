@@ -6,6 +6,7 @@
 package Tela;
 
 import Classes.Servico;
+import java.awt.GridBagLayout;
 import javax.swing.JOptionPane;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,7 +23,9 @@ public class CadastrarServico extends javax.swing.JFrame {
      */
     public CadastrarServico() {
         initComponents();
+       setSize(1280, 720);
         this.setLocationRelativeTo(null);
+        
         usuariologado.setText(TelaDeLogin.usuario);
         setVisible(true);
     }
@@ -162,7 +165,7 @@ public class CadastrarServico extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Serviço Cadastrado");
         tx.commit();
         s.close();
-
+        this.dispose();
 
     }//GEN-LAST:event_jButton3ActionPerformed
 

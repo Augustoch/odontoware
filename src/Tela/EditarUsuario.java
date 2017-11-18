@@ -6,6 +6,7 @@
 package Tela;
 
 import Classes.Usuario;
+import java.awt.GridBagLayout;
 import javax.swing.JOptionPane;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -29,7 +30,9 @@ public class EditarUsuario extends javax.swing.JFrame {
         jTextField3.setText(tipo);
         jTextField2.setEditable(false);
         jTextField3.setEditable(false);
+        setSize(1280, 720);
         this.setLocationRelativeTo(null);
+        
         setVisible(true);
 
     }

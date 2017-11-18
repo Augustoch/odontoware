@@ -20,10 +20,13 @@ public class MenuAtendente extends javax.swing.JFrame {
      * Creates new form MenuAtendente
      */
     public MenuAtendente() {
-        setLayout(new BorderLayout());
+        
         initComponents();
-        usuariologado.setText(TelaDeLogin.usuario);
+        setSize(1280, 720);
         this.setLocationRelativeTo(null);
+        
+        usuarioLogado.setText(TelaDeLogin.usuario);
+        
         setVisible(true);
     }
 
@@ -36,148 +39,138 @@ public class MenuAtendente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        jButton6 = new javax.swing.JButton();
-        usuariologado = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        usuarioLogado = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu = new javax.swing.JMenu();
+        deslogar = new javax.swing.JMenuItem();
+        sairDoSistema = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        listarConsultas = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        cadastroDePaciente = new javax.swing.JMenuItem();
+        listarPacientes = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu Atendente");
 
-        jButton1.setText("Cadastrar Paciente");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/res/OdontoLogo.png"))); // NOI18N
+
+        usuarioLogado.setText("Usuario");
+
+        jMenu.setText("Opções");
+
+        deslogar.setText("Deslogar");
+        deslogar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                deslogarActionPerformed(evt);
             }
         });
+        jMenu.add(deslogar);
 
-        jButton2.setText("Criar Consulta");
-
-        jButton3.setText("listar Pacientes");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        sairDoSistema.setText("Sair");
+        sairDoSistema.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                sairDoSistemaActionPerformed(evt);
             }
         });
+        jMenu.add(sairDoSistema);
 
-        jButton4.setText("Listar Consultas");
+        jMenuBar1.add(jMenu);
 
-        jButton6.setText("Encerrar Sessão");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        jMenu2.setText("Consulta");
+
+        listarConsultas.setText("Listar");
+        listarConsultas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                listarConsultasActionPerformed(evt);
             }
         });
+        jMenu2.add(listarConsultas);
 
-        usuariologado.setText("Usuario");
+        jMenuBar1.add(jMenu2);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 75, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton6)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(usuariologado)
-                        .addGap(37, 37, 37))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(usuariologado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
-                .addComponent(jButton6)
-                .addContainerGap())
-        );
+        jMenu4.setText("Paciente");
 
-        jButton5.setText("Voltar");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        cadastroDePaciente.setText("Cadastro");
+        cadastroDePaciente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                cadastroDePacienteActionPerformed(evt);
             }
         });
+        jMenu4.add(cadastroDePaciente);
+
+        listarPacientes.setText("Listar");
+        listarPacientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listarPacientesActionPerformed(evt);
+            }
+        });
+        jMenu4.add(listarPacientes);
+
+        jMenuBar1.add(jMenu4);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27))
+                .addGap(122, 122, 122)
+                .addComponent(jLabel1)
+                .addContainerGap(195, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(usuarioLogado)
+                .addGap(71, 71, 71))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
-                .addComponent(jButton5)
-                .addGap(31, 31, 31))
+                .addContainerGap()
+                .addComponent(usuarioLogado)
+                .addGap(139, 139, 139)
+                .addComponent(jLabel1)
+                .addContainerGap(236, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void listarConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarConsultasActionPerformed
+        try{
+        new ListarConsultas();
+        }catch(Exception e){
+            JOptionPane.showConfirmDialog(rootPane, "Erro"+e);
+        }
+    }//GEN-LAST:event_listarConsultasActionPerformed
+
+    private void sairDoSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sairDoSistemaActionPerformed
+       System.exit(0);
+    }//GEN-LAST:event_sairDoSistemaActionPerformed
+
+    private void deslogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deslogarActionPerformed
+         this.dispose();
+        try{
+        new TelaDeLogin();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(rootPane, "Erro "+e);
+        }
+    }//GEN-LAST:event_deslogarActionPerformed
+
+    private void cadastroDePacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastroDePacienteActionPerformed
         new CadastroPaciente();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_cadastroDePacienteActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try {
-            new ListarPacientes();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "Erro ao listar Paciente" + e);
-        }
-
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        this.dispose();
-        try{
-        new TelaDeLogin();
+    private void listarPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarPacientesActionPerformed
+         try{
+        new ListarPacientes();
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
+            JOptionPane.showMessageDialog(rootPane, "Erro "+e);
         }
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        this.dispose();
-        try{
-        new TelaDeLogin();
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
-        }
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_listarPacientesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,13 +178,16 @@ public class MenuAtendente extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel usuariologado;
+    private javax.swing.JMenuItem cadastroDePaciente;
+    private javax.swing.JMenuItem deslogar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem listarConsultas;
+    private javax.swing.JMenuItem listarPacientes;
+    private javax.swing.JMenuItem sairDoSistema;
+    private javax.swing.JLabel usuarioLogado;
     // End of variables declaration//GEN-END:variables
 }

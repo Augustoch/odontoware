@@ -31,7 +31,7 @@ public class NewHibernateUtil {
             ac.addAnnotatedClass(Classes.Servico.class);
             ac.addAnnotatedClass(Classes.Usuario.class);
             ac.setProperty("hibernate.connection.driver_class", "org.hsqldb.jdbcDriver");
-            ac.setProperty("hibernate.connection.url", "jdbc:hsqldb:file:/home/augusto/Área de Trabalho/"/*depois descomente essa buceta()*/);
+            ac.setProperty("hibernate.connection.url", "jdbc:hsqldb:file:src/Banco/");
             ac.setProperty("hibernate.connection.username", "root");
             ac.setProperty("hibernate.connection.password", "123456");
             ac.setProperty("show_sql", "true");

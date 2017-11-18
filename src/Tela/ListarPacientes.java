@@ -9,6 +9,7 @@ import Util.Banco;
 import Classes.Paciente;
 import Classes.Usuario;
 import Dao.PacienteDao;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -29,7 +30,9 @@ public class ListarPacientes extends javax.swing.JFrame {
         initComponents();
         carregar();
         usuariologado.setText(TelaDeLogin.usuario);
+        setSize(1280, 720);
         this.setLocationRelativeTo(null);
+        
         setVisible(true);
     }
 

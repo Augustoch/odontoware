@@ -8,13 +8,17 @@ package Tela;
 import Classes.Usuario;
 import Dao.UsuarioDao;
 import Util.Banco;
+import Util.Search;
 import com.itextpdf.text.log.SysoLogger;
 import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.io.File;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import java.util.List;
+import javax.swing.filechooser.FileFilter;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -33,11 +37,14 @@ public class TelaDeLogin extends javax.swing.JFrame {
      */
     public TelaDeLogin() throws Exception{
         
-        setLayout(new FlowLayout());
+        
         initComponents();
         persistirU();
-        setVisible(true);
+        setSize(1280, 720);
         this.setLocationRelativeTo(null);
+        setLayout(new GridBagLayout());
+        setVisible(true);
+        
         
         
 
@@ -175,7 +182,8 @@ public class TelaDeLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
     
     private void persistirU()throws Exception {
-        if(new UsuarioDao().existe()){
+       
+         if(new UsuarioDao().existe()){
         
         
         
@@ -247,6 +255,7 @@ public class TelaDeLogin extends javax.swing.JFrame {
     private void AbriMenu(Usuario u) {
         if (u.getTipo().equals("Dentista")) {
             new MenuDentista();
+            this.dispose();
         } else if (u.getTipo().equals("Atendente")) {
             new MenuAtendente();
             this.dispose();

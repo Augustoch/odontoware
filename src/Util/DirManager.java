@@ -5,7 +5,10 @@
  */
 package Util;
 
+import java.io.File;
+import java.io.FileFilter;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,16 +16,30 @@ import javax.swing.JFileChooser;
  */
 public class DirManager {
 
-    public String selecionar(){
-       final JFileChooser jfc = new JFileChooser();
+    public String selecionar() {
 
-        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        File diretorio = new File("C:/");
 
-        jfc.showOpenDialog(null); 
-         String cam = jfc.getCurrentDirectory().getPath();
-         return  "jdbc:hsqldb:file:"+cam;
+        File[] listFiles = diretorio.listFiles(new FileFilter() {
+            public boolean accept(File pathname) {
+                return pathname.getName().startsWith("founderOdonto"); // apenas arquivos que começam com a letra "a"
+            }
+        });
+
+        for (File f : listFiles) {
+            System.out.println(f.getName());
+        }
+
+        final JFileChooser jfc = new JFileChooser();
+
+        jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        jfc.showOpenDialog(null);
+        String cam = jfc.getCurrentDirectory().getPath();
+        JOptionPane.showMessageDialog(null, cam);
+        return "jdbc:hsqldb:file:" + cam;
     }
-    
+
     /*
     public String arquivoConf() {
 
@@ -83,5 +100,5 @@ public class DirManager {
         return "jdbc:hsqldb:file:" + arquivoConf();
 
     }
-*/
+     */
 }

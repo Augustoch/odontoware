@@ -7,6 +7,7 @@ package Tela;
 
 import Classes.Paciente;
 import Dao.PacienteDao;
+import java.awt.GridBagLayout;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -31,6 +32,9 @@ public class EditarPaciente extends javax.swing.JFrame {
         jTextField2.setText(nome);
         jTextField1.setEditable(false);
         usuariologado.setText(TelaDeLogin.usuario);
+        setSize(1280, 720);
+        this.setLocationRelativeTo(null);
+        
         setVisible(true);
 
     }
