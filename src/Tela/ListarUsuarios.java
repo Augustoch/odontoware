@@ -53,7 +53,7 @@ public class ListarUsuarios extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         usuariologado = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Listar Usuários");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(

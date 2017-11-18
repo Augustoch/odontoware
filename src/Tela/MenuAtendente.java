@@ -93,6 +93,7 @@ public class MenuAtendente extends javax.swing.JFrame {
 
         jMenu4.setText("Paciente");
 
+        cadastroDePaciente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         cadastroDePaciente.setText("Cadastro");
         cadastroDePaciente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

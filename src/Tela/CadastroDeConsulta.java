@@ -1032,7 +1032,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void novoServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_novoServicoActionPerformed
-            new Servico();
+            new CadastrarServico();
             
     }//GEN-LAST:event_novoServicoActionPerformed
 

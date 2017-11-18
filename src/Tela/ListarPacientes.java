@@ -53,7 +53,8 @@ public class ListarPacientes extends javax.swing.JFrame {
         usuariologado = new javax.swing.JLabel();
         listarConsultas = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Listar Pacientes");
 
         Editar.setText("Editar");
         Editar.addActionListener(new java.awt.event.ActionListener() {
