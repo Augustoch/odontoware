@@ -6,7 +6,7 @@
 package Tela;
 
 import Classes.Consulta;
-import Classes.DataClasse;
+import Util.DateClass;
 import Classes.Paciente;
 import Classes.Servico;
 import Classes.Usuario;
@@ -804,8 +804,7 @@ public class EditarConsulta extends javax.swing.JFrame {
         consulta.setHabitos(txtHabito.getText());
         consulta.setObs(txaObservacoes.getText());
 
-        consulta.setDataDoUltAtendimento(
-            new DataClasse(Integer.parseInt(dia.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(ano.getText())).getData());
+        consulta.setDataDoUltAtendimento(new DateClass(Integer.parseInt(dia.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(ano.getText())).getData());
         consulta.setDataDaConsulta(LocalDate.now());
         System.out.println(LocalDate.now());
         consulta.setXpNegAtendAnterior(txaExperiencia.getText());

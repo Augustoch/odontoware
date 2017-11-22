@@ -137,8 +137,8 @@ public class ListarPacientes extends javax.swing.JFrame {
                         .addComponent(Editar)
                         .addComponent(listarConsultas)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(157, 157, 157)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
                 .addComponent(jButton3)
                 .addGap(24, 24, 24))
         );
@@ -150,7 +150,7 @@ public class ListarPacientes extends javax.swing.JFrame {
         try {
             Object i = jTable1.getValueAt(jTable1.getSelectedRow(), 0);
             int a = Integer.parseInt(i.toString());
-            new EditarPaciente(a, jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString());
+            new EditarPaciente(a);
             carregar();
 
         } catch (Exception e) {

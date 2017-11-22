@@ -5,30 +5,10 @@
  */
 package Tela;
 
-import Classes.DataClasse;
+import Util.DateClass;
 import Classes.Paciente;
 import Dao.PacienteDao;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
-import org.hibernate.Transaction;
-import Util.Banco;
-import java.awt.GridBagLayout;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
-import javafx.scene.control.RadioButton;
-import javax.swing.ButtonGroup;
-import javax.swing.JFormattedTextField;
-import javax.swing.JRadioButton;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
-import org.hibernate.type.DateType;
-import sun.util.calendar.BaseCalendar;
-import sun.util.calendar.LocalGregorianCalendar;
 
 /**
  *
@@ -323,7 +303,7 @@ public class CadastroPaciente extends javax.swing.JFrame {
 
         paciente.setCpf(jCpf.getText());
         //setar data de nascimento
-        paciente.setDataDeNacimento(new DataClasse(Integer.parseInt(dataNasc.getText().substring(0, 2)), Integer.parseInt(dataNasc.getText().substring(3, 5)), Integer.parseInt(dataNasc.getText().substring(6, 10))).getData());
+        paciente.setDataDeNacimento(new DateClass(Integer.parseInt(dataNasc.getText().substring(0, 2)), Integer.parseInt(dataNasc.getText().substring(3, 5)), Integer.parseInt(dataNasc.getText().substring(6, 10))).getData());
 
         paciente.setEndereco(enderecoPaciente.getText()+", "+numero.getText()+", "+cidade.getText()+", "+uf.getText());
         paciente.setFone(telefone.getText());

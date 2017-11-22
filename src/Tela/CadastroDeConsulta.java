@@ -6,7 +6,7 @@
 package Tela;
 
 import Classes.Consulta;
-import Classes.DataClasse;
+import Util.DateClass;
 import Classes.Paciente;
 import Classes.Servico;
 import Classes.Usuario;
@@ -126,11 +126,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
         txaTecidos = new javax.swing.JTextArea();
         chkInquerito01 = new javax.swing.JCheckBox();
         jLabel22 = new javax.swing.JLabel();
-        dia = new javax.swing.JTextField();
-        mes = new javax.swing.JTextField();
-        ano = new javax.swing.JTextField();
-        jLabel26 = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
+        dataDoUltimoAtandimento = new javax.swing.JFormattedTextField();
         jPanel4 = new javax.swing.JPanel();
         lblOdontograma = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
@@ -459,15 +455,11 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
 
         jLabel22.setText("Ingere alimentos/bebidas entre as refeições?");
 
-        ano.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                anoActionPerformed(evt);
-            }
-        });
-
-        jLabel26.setText("/");
-
-        jLabel27.setText("/");
+        try {
+            dataDoUltimoAtandimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -488,24 +480,13 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(27, 27, 27)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(dia, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel26)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(mes, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(22, 22, 22)
-                                        .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(ano, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel18))))
-                        .addContainerGap(656, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane4)
-                            .addComponent(jScrollPane5)
-                            .addComponent(jScrollPane6))
-                        .addContainerGap())))
+                                    .addComponent(jLabel18)
+                                    .addComponent(dataDoUltimoAtandimento, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 644, Short.MAX_VALUE))
+                    .addComponent(jScrollPane4)
+                    .addComponent(jScrollPane5)
+                    .addComponent(jScrollPane6))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -513,12 +494,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jLabel18)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(dia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(mes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel26)
-                    .addComponent(jLabel27))
+                .addComponent(dataDoUltimoAtandimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addComponent(jLabel19)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -965,10 +941,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
 
     }//GEN-LAST:event_pesquisaKeyPressed
 
-    private void anoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_anoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_anoActionPerformed
-
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         SessionFactory sf = Util.NewHibernateUtil.getSessionFactory();
         Session s = sf.openSession();
@@ -1002,9 +974,7 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
 
         consulta.setValor(Double.parseDouble(valorFinal.getText()));
         try{
-            consulta.setDataDoUltAtendimento(
-
-                new DataClasse(Integer.parseInt(dia.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(ano.getText())).getData());
+            consulta.setDataDoUltAtendimento(new DateClass(dataDoUltimoAtandimento.getText()).getData());
         }catch(NumberFormatException nfe){
             JOptionPane.showMessageDialog(null, "Campo data de ultimo atendimento está vazio");
             return;
@@ -1043,15 +1013,14 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addServico;
-    private javax.swing.JTextField ano;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JCheckBox chkAnamnese01;
     private javax.swing.JCheckBox chkAnamnese02;
     private javax.swing.JCheckBox chkAnamnese03;
     private javax.swing.JCheckBox chkInquerito01;
+    private javax.swing.JFormattedTextField dataDoUltimoAtandimento;
     private javax.swing.JTextField desconto;
-    private javax.swing.JTextField dia;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1070,8 +1039,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
@@ -1105,7 +1072,6 @@ public class CadastroDeConsulta extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jtpConsulta;
     private javax.swing.JLabel lblOdontograma;
     private javax.swing.JList<String> lista;
-    private javax.swing.JTextField mes;
     private javax.swing.JButton novoServico;
     private javax.swing.JTextField pesquisa;
     private javax.swing.JButton recarregarListaDeServicos;
